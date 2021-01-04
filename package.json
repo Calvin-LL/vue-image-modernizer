@@ -1,0 +1,30 @@
+{
+  "name": "vue-image-modernizer",
+  "private": true,
+  "scripts": {
+    "build": "lerna run build",
+    "lint": "eslint --max-warnings 0 --ext .ts .",
+    "lint:fix": "eslint --max-warnings 0 --fix --ext .ts .",
+    "lint:markdown": "remark .",
+    "test": "lerna run test"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^11.0.0",
+    "@commitlint/config-conventional": "^11.0.0",
+    "@typescript-eslint/eslint-plugin": "^4.11.1",
+    "@typescript-eslint/parser": "^4.11.1",
+    "eslint": "^7.16.0",
+    "eslint-plugin-import-helpers": "^1.1.0",
+    "husky": "^4.3.6",
+    "jest": "^26.6.3",
+    "lerna": "^3.22.1",
+    "lint-staged": "^10.5.3",
+    "prettier": "^2.2.1",
+    "remark-cli": "^9.0.0",
+    "remark-lint": "^8.0.0",
+    "remark-lint-no-dead-urls": "^1.1.0",
+    "remark-preset-lint-recommended": "^5.0.0",
+    "ts-jest": "^26.4.4",
+    "typescript": "^4.1.3"
+  }
+}

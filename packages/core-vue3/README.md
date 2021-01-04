@@ -1,0 +1,1 @@
+# `@vue-image-modernizer/core`

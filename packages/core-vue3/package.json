@@ -1,0 +1,39 @@
+{
+  "name": "@vue-image-modernizer/core-vue3",
+  "version": "1.0.0",
+  "description": "@vue-image-modernizer/core-vue3",
+  "license": "MIT",
+  "keywords": [
+    "vue-image-modernizer"
+  ],
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "test": "jest"
+  },
+  "engines": {
+    "node": ">= 10.13.0"
+  },
+  "author": {
+    "name": "Calvin Liang",
+    "email": "npm@calvin.sh",
+    "url": "https://calvin.sh"
+  },
+  "repository": "Calvin-LL/vue-image-modernizer",
+  "bugs": "https://github.com/Calvin-LL/vue-image-modernizer/issues",
+  "homepage": "https://github.com/Calvin-LL/vue-image-modernizer",
+  "dependencies": {
+    "@vue/compiler-core": "^3.0.4",
+    "mime": "^2.4.7"
+  },
+  "devDependencies": {
+    "@types/jest": "^26.0.19",
+    "@types/mime": "^2.0.3",
+    "@types/node": "^14.14.16",
+    "@vue/compiler-sfc": "^3.0.5"
+  }
+}

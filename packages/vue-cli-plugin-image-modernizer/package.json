@@ -1,0 +1,32 @@
+{
+  "name": "@vue-image-modernizer/vue-cli-plugin-image-modernizer",
+  "version": "1.0.0",
+  "description": "@vue-image-modernizer/vue-cli-plugin-image-modernizer",
+  "license": "MIT",
+  "keywords": [
+    "vue-image-modernizer"
+  ],
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "test": "#jest"
+  },
+  "engines": {
+    "node": ">= 10.13.0"
+  },
+  "author": {
+    "name": "Calvin Liang",
+    "email": "npm@calvin.sh",
+    "url": "https://calvin.sh"
+  },
+  "repository": "Calvin-LL/vue-image-modernizer",
+  "bugs": "https://github.com/Calvin-LL/vue-image-modernizer/issues",
+  "homepage": "https://github.com/Calvin-LL/vue-image-modernizer",
+  "dependencies": {
+    "@types/node": "^14.14.16"
+  }
+}
