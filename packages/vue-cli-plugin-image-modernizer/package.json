@@ -1,20 +1,15 @@
 {
   "name": "@vue-image-modernizer/vue-cli-plugin-image-modernizer",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "@vue-image-modernizer/vue-cli-plugin-image-modernizer",
   "license": "MIT",
   "keywords": [
     "vue-image-modernizer"
   ],
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "index.js",
   "files": [
     "dist"
   ],
-  "scripts": {
-    "build": "tsc",
-    "test": "#jest"
-  },
   "engines": {
     "node": ">= 10.13.0"
   },
@@ -27,6 +22,8 @@
   "bugs": "https://github.com/Calvin-LL/vue-image-modernizer/issues",
   "homepage": "https://github.com/Calvin-LL/vue-image-modernizer",
   "dependencies": {
-    "@types/node": "^14.14.16"
+    "@types/node": "^14.14.16",
+    "@vue-image-modernizer/core-vue3": "^0.0.1",
+    "mime": "^2.5.0"
   }
 }
