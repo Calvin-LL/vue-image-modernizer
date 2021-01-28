@@ -11,7 +11,8 @@
   ],
   "main": "index.js",
   "files": [
-    "dist"
+    "index.js",
+    "generator.js"
   ],
   "engines": {
     "node": ">= 10.13.0"
