@@ -2,6 +2,7 @@
   "name": "@vue-image-modernizer/vue-cli-plugin-image-modernizer",
   "version": "0.0.1",
   "description": "@vue-image-modernizer/vue-cli-plugin-image-modernizer",
+  "private": false,
   "license": "MIT",
   "keywords": [
     "vue-image-modernizer"
