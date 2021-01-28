@@ -7,8 +7,6 @@ interface ElementLevelOptions {
   imageFormats?: VIMNodeTransformOptions["imageFormats"];
   sizes?: VIMNodeTransformOptions["sizes"];
   quality?: VIMNodeTransformOptions["quality"];
-  imageSrcsetLoaderOptions?: VIMNodeTransformOptions["imageSrcsetLoaderOptions"];
-  imageResizeLoaderOptions?: VIMNodeTransformOptions["imageResizeLoaderOptions"];
 }
 
 /**
@@ -32,8 +30,6 @@ export default function parseElementLevelOptions(
     imageFormats: "array",
     sizes: "array",
     quality: "object",
-    imageSrcsetLoaderOptions: "object",
-    imageResizeLoaderOptions: "object",
   };
 
   for (const key in valueTypes) {

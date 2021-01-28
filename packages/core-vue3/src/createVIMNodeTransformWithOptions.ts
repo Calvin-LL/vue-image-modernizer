@@ -63,8 +63,6 @@ export interface VIMNodeTransformOptions {
     typeof IMAGE_FORMATS[keyof typeof IMAGE_FORMATS],
     number
   >;
-  readonly imageSrcsetLoaderOptions?: Record<string, any>;
-  readonly imageResizeLoaderOptions?: Record<string, any>;
   readonly compressFilePathTransformer?: (
     path: string,
     options: Omit<Required<VIMNodeTransformOptions>, "filePathTransformer">,
@@ -89,8 +87,6 @@ export const defaultVIMNodeTransformOptions: Required<VIMNodeTransformOptions> =
     webp: 80,
     png: 100,
   },
-  imageSrcsetLoaderOptions: {},
-  imageResizeLoaderOptions: {},
   compressFilePathTransformer: compressWebpack,
   srcSetFilePathTransformer: srcSetWebpack,
 };
@@ -152,14 +148,6 @@ export const vimNodeTransform: NodeTransform = (
     quality: {
       ...options.quality,
       ...elementLevelOptions.quality,
-    },
-    imageSrcsetLoaderOptions: {
-      ...options.imageSrcsetLoaderOptions,
-      ...elementLevelOptions.imageSrcsetLoaderOptions,
-    },
-    imageResizeLoaderOptions: {
-      ...options.imageResizeLoaderOptions,
-      ...elementLevelOptions.imageResizeLoaderOptions,
     },
   } as Required<VIMNodeTransformOptions>;
 

@@ -28,7 +28,6 @@ function compileWithVIMNodeTransform(
       source: template,
       filename: "test.vue",
       id: "0",
-      // @ts-expect-error @vue/compiler-core and @vue/compiler-sfc not identical
       compilerOptions: { nodeTransforms: [t] },
     });
 
@@ -467,82 +466,6 @@ describe("vimNodeTransform", () => {
       `);
     });
 
-    it("should transform with imageSrcsetLoaderOptions: { test: true }", () => {
-      const result = compileWithVIMNodeTransform(
-        `<img src="./logo.png" modernize/>`,
-        {
-          imageSrcsetLoaderOptions: { test: true },
-        }
-      );
-
-      expect(result.code).toMatchInlineSnapshot(`
-        "import { createVNode as _createVNode, undefined as _undefined, openBlock as _openBlock, createBlock as _createBlock } from \\"vue\\"
-        import _imports_0 from '-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"],\\"test\\":true}!webpack-image-resize-loader?{\\"format\\":\\"webp\\",\\"quality\\":80}!./logo.png'
-        import _imports_1 from '-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"],\\"test\\":true}!webpack-image-resize-loader?{\\"quality\\":100}!./logo.png'
-        import _imports_2 from '-!webpack-image-resize-loader?{\\"format\\":\\"png\\",\\"quality\\":100}!./logo.png'
-
-
-        const _hoisted_1 = /*#__PURE__*/_createVNode(\\"source\\", {
-          type: \\"image/webp\\",
-          srcset: _imports_0
-        }, null, -1 /* HOISTED */)
-        const _hoisted_2 = /*#__PURE__*/_createVNode(\\"source\\", {
-          type: \\"image/png\\",
-          srcset: _imports_1
-        }, null, -1 /* HOISTED */)
-        const _hoisted_3 = /*#__PURE__*/_createVNode(\\"img\\", {
-          src: _ctx._imports_0,
-          loading: \\"lazy\\"
-        }, null, -1 /* HOISTED */)
-
-        export function render(_ctx, _cache) {
-          return (_openBlock(), _createBlock(\\"picture\\", null, [
-            _hoisted_1,
-            _hoisted_2,
-            _hoisted_3
-          ]))
-        }"
-      `);
-    });
-
-    it("should transform with imageResizeLoaderOptions: { test: true }", () => {
-      const result = compileWithVIMNodeTransform(
-        `<img src="./logo.png" modernize/>`,
-        {
-          imageResizeLoaderOptions: { test: true },
-        }
-      );
-
-      expect(result.code).toMatchInlineSnapshot(`
-        "import { createVNode as _createVNode, undefined as _undefined, openBlock as _openBlock, createBlock as _createBlock } from \\"vue\\"
-        import _imports_0 from '-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"format\\":\\"webp\\",\\"quality\\":80,\\"test\\":true}!./logo.png'
-        import _imports_1 from '-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"quality\\":100,\\"test\\":true}!./logo.png'
-        import _imports_2 from '-!webpack-image-resize-loader?{\\"format\\":\\"png\\",\\"quality\\":100,\\"test\\":true}!./logo.png'
-
-
-        const _hoisted_1 = /*#__PURE__*/_createVNode(\\"source\\", {
-          type: \\"image/webp\\",
-          srcset: _imports_0
-        }, null, -1 /* HOISTED */)
-        const _hoisted_2 = /*#__PURE__*/_createVNode(\\"source\\", {
-          type: \\"image/png\\",
-          srcset: _imports_1
-        }, null, -1 /* HOISTED */)
-        const _hoisted_3 = /*#__PURE__*/_createVNode(\\"img\\", {
-          src: _ctx._imports_0,
-          loading: \\"lazy\\"
-        }, null, -1 /* HOISTED */)
-
-        export function render(_ctx, _cache) {
-          return (_openBlock(), _createBlock(\\"picture\\", null, [
-            _hoisted_1,
-            _hoisted_2,
-            _hoisted_3
-          ]))
-        }"
-      `);
-    });
-
     it('should transform with compressFilePathTransformer: () => "test"', () => {
       const result = compileWithVIMNodeTransform(
         `<img src="./logo.png" modernize/>`,
@@ -687,25 +610,6 @@ describe("vimNodeTransform", () => {
           onlyUseImg: true,
           noLazy: true,
           sizes: ["original"],
-        }
-      );
-
-      expect(result.code).toMatch(expected.code);
-    });
-
-    it('should transform with element level value "onlyUseImg noLazy sizes=["original"] imageResizeLoaderOptions={"fileLoaderOptions":{"outputPath":"images"}}"', () => {
-      const result = compileWithVIMNodeTransform(
-        `<img src="./logo.png" modernize='onlyUseImg noLazy sizes=["original"] imageResizeLoaderOptions={"fileLoaderOptions":{"outputPath":"images"}}'/>`
-      );
-      const expected = compileWithVIMNodeTransform(
-        `<img src="./logo.png" modernize/>`,
-        {
-          onlyUseImg: true,
-          noLazy: true,
-          sizes: ["original"],
-          imageResizeLoaderOptions: {
-            fileLoaderOptions: { outputPath: "images" },
-          },
         }
       );
 
@@ -1095,74 +999,6 @@ describe("vimNodeTransform without transformAssetUrl", () => {
       `);
     });
 
-    it("should transform with imageSrcsetLoaderOptions: { test: true }", () => {
-      const result = compileWithVIMNodeTransformWithoutTransformAssetUrl(
-        `<img src="./logo.png" modernize/>`,
-        {
-          imageSrcsetLoaderOptions: { test: true },
-        }
-      );
-
-      expect(result.code).toMatchInlineSnapshot(`
-        "import { createVNode as _createVNode, openBlock as _openBlock, createBlock as _createBlock } from \\"vue\\"
-        import _imports_0 from '-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"],\\"test\\":true}!webpack-image-resize-loader?{\\"format\\":\\"webp\\",\\"quality\\":80}!./logo.png'
-        import _imports_1 from '-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"],\\"test\\":true}!webpack-image-resize-loader?{\\"quality\\":100}!./logo.png'
-        import _imports_2 from '-!webpack-image-resize-loader?{\\"format\\":\\"png\\",\\"quality\\":100}!./logo.png'
-
-
-        export function render(_ctx, _cache) {
-          return (_openBlock(), _createBlock(\\"picture\\", null, [
-            _createVNode(\\"source\\", {
-              type: \\"image/webp\\",
-              srcset: _imports_0
-            }),
-            _createVNode(\\"source\\", {
-              type: \\"image/png\\",
-              srcset: _imports_1
-            }),
-            _createVNode(\\"img\\", {
-              src: _imports_2,
-              loading: \\"lazy\\"
-            })
-          ]))
-        }"
-      `);
-    });
-
-    it("should transform with imageResizeLoaderOptions: { test: true }", () => {
-      const result = compileWithVIMNodeTransformWithoutTransformAssetUrl(
-        `<img src="./logo.png" modernize/>`,
-        {
-          imageResizeLoaderOptions: { test: true },
-        }
-      );
-
-      expect(result.code).toMatchInlineSnapshot(`
-        "import { createVNode as _createVNode, openBlock as _openBlock, createBlock as _createBlock } from \\"vue\\"
-        import _imports_0 from '-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"format\\":\\"webp\\",\\"quality\\":80,\\"test\\":true}!./logo.png'
-        import _imports_1 from '-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"quality\\":100,\\"test\\":true}!./logo.png'
-        import _imports_2 from '-!webpack-image-resize-loader?{\\"format\\":\\"png\\",\\"quality\\":100,\\"test\\":true}!./logo.png'
-
-
-        export function render(_ctx, _cache) {
-          return (_openBlock(), _createBlock(\\"picture\\", null, [
-            _createVNode(\\"source\\", {
-              type: \\"image/webp\\",
-              srcset: _imports_0
-            }),
-            _createVNode(\\"source\\", {
-              type: \\"image/png\\",
-              srcset: _imports_1
-            }),
-            _createVNode(\\"img\\", {
-              src: _imports_2,
-              loading: \\"lazy\\"
-            })
-          ]))
-        }"
-      `);
-    });
-
     it('should transform with compressFilePathTransformer: () => "test"', () => {
       const result = compileWithVIMNodeTransformWithoutTransformAssetUrl(
         `<img src="./logo.png" modernize/>`,
@@ -1299,25 +1135,6 @@ describe("vimNodeTransform without transformAssetUrl", () => {
           onlyUseImg: true,
           noLazy: true,
           sizes: ["original"],
-        }
-      );
-
-      expect(result.code).toMatch(expected.code);
-    });
-
-    it('should transform with element level value "onlyUseImg noLazy sizes=["original"] imageResizeLoaderOptions={"fileLoaderOptions":{"outputPath":"images"}}"', () => {
-      const result = compileWithVIMNodeTransformWithoutTransformAssetUrl(
-        `<img src="./logo.png" modernize='onlyUseImg noLazy sizes=["original"] imageResizeLoaderOptions={"fileLoaderOptions":{"outputPath":"images"}}'/>`
-      );
-      const expected = compileWithVIMNodeTransformWithoutTransformAssetUrl(
-        `<img src="./logo.png" modernize/>`,
-        {
-          onlyUseImg: true,
-          noLazy: true,
-          sizes: ["original"],
-          imageResizeLoaderOptions: {
-            fileLoaderOptions: { outputPath: "images" },
-          },
         }
       );
 

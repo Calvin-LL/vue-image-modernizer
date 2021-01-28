@@ -17,7 +17,6 @@ export default function (
   const resizeLoaderOptions = {
     format: imageMIMEType === type ? undefined : format,
     quality: options.quality[IMAGE_FORMATS[targetMIMEType]],
-    ...options.imageResizeLoaderOptions,
   };
   const resizeLoaderOptionsString = JSON.stringify(resizeLoaderOptions);
 
