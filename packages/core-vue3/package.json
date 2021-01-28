@@ -2,7 +2,6 @@
   "name": "@vue-image-modernizer/core-vue3",
   "version": "0.0.1",
   "description": "@vue-image-modernizer/core-vue3",
-  "private": false,
   "license": "MIT",
   "keywords": [
     "vue-image-modernizer"
