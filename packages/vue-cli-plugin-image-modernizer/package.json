@@ -11,9 +11,13 @@
   ],
   "main": "index.js",
   "files": [
+    "dist",
     "index.js",
     "generator.js"
   ],
+  "scripts": {
+    "build": "tsc"
+  },
   "engines": {
     "node": ">= 10.13.0"
   },
@@ -26,9 +30,13 @@
   "bugs": "https://github.com/Calvin-LL/vue-image-modernizer/issues",
   "homepage": "https://github.com/Calvin-LL/vue-image-modernizer",
   "dependencies": {
-    "@types/node": "^14.14.16",
     "@vue-image-modernizer/core-vue3": "^0.0.2-alpha.9+2ce1470",
     "mime": "^2.5.0"
+  },
+  "devDependencies": {
+    "@types/mime": "^2.0.3",
+    "@types/node": "^14.14.22",
+    "@vue/cli-service": "^4.5.11"
   },
   "gitHead": "2ce1470db40d0034b51ada3e9c507bc643cee566"
 }
