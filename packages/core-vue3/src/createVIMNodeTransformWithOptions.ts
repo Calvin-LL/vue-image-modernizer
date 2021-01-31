@@ -152,13 +152,7 @@ export const vimNodeTransform: NodeTransform = (
   } as Required<VIMNodeTransformOptions>;
 
   // src bind directive is created by transformAssetUrl
-  const srcBindDirectiveIndex = node.props.findIndex(
-    (attr) =>
-      attr.type === NodeTypes.DIRECTIVE &&
-      attr.name === "bind" &&
-      attr.arg?.type === NodeTypes.SIMPLE_EXPRESSION &&
-      attr.arg.content === "src"
-  );
+  const srcBindDirectiveIndex = node.props.findIndex(isPropSrcBindDirective);
   if (srcBindDirectiveIndex !== -1) {
     const srcBindDirective = node.props[srcBindDirectiveIndex] as DirectiveNode;
 
@@ -192,9 +186,7 @@ export const vimNodeTransform: NodeTransform = (
   // has not already transformed it,
   // unlikely to happen since most users will be using
   // the default options for @vue/compiler-sfc
-  const srcAttributeIndex = node.props.findIndex(
-    (attr) => attr.type === NodeTypes.ATTRIBUTE && attr.name === "src"
-  );
+  const srcAttributeIndex = node.props.findIndex(isPropSrcAttribute);
 
   if (srcAttributeIndex !== -1) {
     const srcAttribute = node.props[srcAttributeIndex] as AttributeNode;
@@ -378,9 +370,16 @@ function transformElementIntoPicture(transformOptions: {
     );
 
     const srcAttributeIndex = currentImgNodeClone.props.findIndex(
-      (attr) => attr.type === NodeTypes.ATTRIBUTE && attr.name === "src"
+      (attr) =>
+        // if this transform comes before transformAssetUrl
+        isPropSrcAttribute(attr) ||
+        // if this transform comes after transformAssetUrl, src will already be transformed into a directive
+        isPropSrcBindDirective(attr)
     );
 
+    if (srcAttributeIndex === -1) throw new Error("src attribute not found");
+
+    // replace the src node with new directive node that has the compressed image
     currentImgNodeClone.props[srcAttributeIndex] = createSrcDirectiveNode(
       compressedSrcExp,
       srcProp.loc
@@ -445,6 +444,19 @@ function createLoadingAttributeNode(sourceLoc: SourceLocation): AttributeNode {
       loc: sourceLoc,
     },
   };
+}
+
+function isPropSrcBindDirective(prop: AttributeNode | DirectiveNode): boolean {
+  return (
+    prop.type === NodeTypes.DIRECTIVE &&
+    prop.name === "bind" &&
+    prop.arg?.type === NodeTypes.SIMPLE_EXPRESSION &&
+    prop.arg.content === "src"
+  );
+}
+
+function isPropSrcAttribute(prop: AttributeNode | DirectiveNode): boolean {
+  return prop.type === NodeTypes.ATTRIBUTE && prop.name === "src";
 }
 
 /**

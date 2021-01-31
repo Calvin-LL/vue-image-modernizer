@@ -71,7 +71,7 @@ describe("vimNodeTransform", () => {
         srcset: _imports_1
       }, null, -1 /* HOISTED */)
       const _hoisted_3 = /*#__PURE__*/_createVNode(\\"img\\", {
-        src: _ctx._imports_0,
+        src: _imports_2,
         loading: \\"lazy\\"
       }, null, -1 /* HOISTED */)
 
@@ -105,7 +105,7 @@ describe("vimNodeTransform", () => {
         srcset: _imports_1
       }, null, -1 /* HOISTED */)
       const _hoisted_3 = /*#__PURE__*/_createVNode(\\"img\\", {
-        src: _ctx._imports_0,
+        src: _imports_2,
         loading: \\"auto\\"
       }, null, -1 /* HOISTED */)
 
@@ -249,7 +249,7 @@ describe("vimNodeTransform", () => {
           type: \\"image/png\\",
           srcset: _imports_1
         }, null, -1 /* HOISTED */)
-        const _hoisted_3 = /*#__PURE__*/_createVNode(\\"img\\", { src: _ctx._imports_0 }, null, -1 /* HOISTED */)
+        const _hoisted_3 = /*#__PURE__*/_createVNode(\\"img\\", { src: _imports_2 }, null, -1 /* HOISTED */)
 
         export function render(_ctx, _cache) {
           return (_openBlock(), _createBlock(\\"picture\\", null, [
@@ -340,7 +340,7 @@ describe("vimNodeTransform", () => {
           srcset: _imports_1
         }, null, -1 /* HOISTED */)
         const _hoisted_3 = /*#__PURE__*/_createVNode(\\"img\\", {
-          src: _ctx._imports_0,
+          src: _imports_2,
           loading: \\"lazy\\"
         }, null, -1 /* HOISTED */)
 
@@ -373,7 +373,7 @@ describe("vimNodeTransform", () => {
           srcset: _imports_0
         }, null, -1 /* HOISTED */)
         const _hoisted_2 = /*#__PURE__*/_createVNode(\\"img\\", {
-          src: _ctx._imports_0,
+          src: _imports_1,
           loading: \\"lazy\\"
         }, null, -1 /* HOISTED */)
 
@@ -410,7 +410,7 @@ describe("vimNodeTransform", () => {
           srcset: _imports_1
         }, null, -1 /* HOISTED */)
         const _hoisted_3 = /*#__PURE__*/_createVNode(\\"img\\", {
-          src: _ctx._imports_0,
+          src: _imports_2,
           loading: \\"lazy\\"
         }, null, -1 /* HOISTED */)
 
@@ -452,7 +452,7 @@ describe("vimNodeTransform", () => {
           srcset: _imports_1
         }, null, -1 /* HOISTED */)
         const _hoisted_3 = /*#__PURE__*/_createVNode(\\"img\\", {
-          src: _ctx._imports_0,
+          src: _imports_2,
           loading: \\"lazy\\"
         }, null, -1 /* HOISTED */)
 
@@ -490,7 +490,7 @@ describe("vimNodeTransform", () => {
           srcset: _imports_1
         }, null, -1 /* HOISTED */)
         const _hoisted_3 = /*#__PURE__*/_createVNode(\\"img\\", {
-          src: _ctx._imports_0,
+          src: _imports_2,
           loading: \\"lazy\\"
         }, null, -1 /* HOISTED */)
 
@@ -527,7 +527,7 @@ describe("vimNodeTransform", () => {
           srcset: _imports_0
         }, null, -1 /* HOISTED */)
         const _hoisted_3 = /*#__PURE__*/_createVNode(\\"img\\", {
-          src: _ctx._imports_0,
+          src: _imports_1,
           loading: \\"lazy\\"
         }, null, -1 /* HOISTED */)
 
