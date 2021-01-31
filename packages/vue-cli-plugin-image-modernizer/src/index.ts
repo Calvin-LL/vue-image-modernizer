@@ -1,4 +1,5 @@
 import mime from "mime";
+import { Compiler, Plugin, loader } from "webpack";
 
 import {
   IMAGE_FORMATS,
@@ -10,6 +11,39 @@ import { PluginAPI, ProjectOptions } from "@vue/cli-service";
 interface ImageModernizerOptions {
   imageResizeLoaderOptions: Record<string, any>;
   imageSrcsetLoaderOptions: Record<string, any>;
+}
+
+// need this plugin to remove thread-loader when using vue-loader,
+// thread-loader does JSON.stringify to vue-loader's options
+// which turns functions to `null`, including our nodeTransform function
+class VueImageModernizerWebpackPlugin implements Plugin {
+  apply(compiler: Compiler): void {
+    const id = "vue-image-modernizer-plugin";
+
+    function normalModuleLoaderHook(loaderContext: loader.LoaderContext): void {
+      const vueLoader = loaderContext._module.loaders.find(
+        ({ loader }: { loader: string }) => loader.includes("vue-loader")
+      );
+
+      if (vueLoader?.options !== undefined)
+        loaderContext._module.loaders = loaderContext._module.loaders.filter(
+          ({ loader }: { loader: string }) => !loader.includes("thread-loader")
+        );
+    }
+
+    compiler.hooks.compilation.tap(id, (compilation) => {
+      const NormalModule = require("webpack/lib/NormalModule");
+
+      // in webpack 5 compilation.hooks.normalModuleLoader became
+      // NormalModule.getCompilationHooks(compilation).loader
+      if (NormalModule?.getCompilationHooks)
+        NormalModule.getCompilationHooks(compilation).loader.tap(
+          id,
+          normalModuleLoaderHook
+        );
+      else compilation.hooks.normalModuleLoader.tap(id, normalModuleLoaderHook);
+    });
+  }
 }
 
 export default function (
@@ -93,6 +127,6 @@ export default function (
         },
       }));
 
-    config.module.rule("js").uses.delete("thread-loader");
+    config.plugin("vue-image-modernizer").use(VueImageModernizerWebpackPlugin);
   });
 }
