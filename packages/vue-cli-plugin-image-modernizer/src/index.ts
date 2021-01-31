@@ -60,6 +60,17 @@ export default function (
     const builtInImageLoaderOptionsString = JSON.stringify(
       config.module.rule("images").use("url-loader").get("options")
     );
+    const fileLoaderOptionsGenerator = `(options, existingOptions) => ({
+      ...existingOptions,
+      mimetype: require(\`mime\`).getType(options.format),
+      fallback: {
+        ...existingOptions.fallback,
+        options: defaultFileLoaderOptionsGenerator(
+          options,
+          existingOptions.fallback.options
+        ),
+      },
+    })`.replace(/\s/g, "");
 
     function compressFilePathTransformer(
       path: string,
@@ -73,6 +84,8 @@ export default function (
       const resizeLoaderOptions = {
         format: imageMIMEType === type ? undefined : format,
         quality: options.quality[IMAGE_FORMATS[targetMIMEType]],
+        fileLoader: "url-loader",
+        fileLoaderOptionsGenerator,
         ...vueCliOptions.pluginOptions?.imageModernizer
           ?.imageResizeLoaderOptions,
       };
@@ -93,6 +106,8 @@ export default function (
       const resizeLoaderOptions = {
         format: imageMIMEType === type ? undefined : format,
         quality: options.quality[IMAGE_FORMATS[targetMIMEType]],
+        fileLoader: "url-loader",
+        fileLoaderOptionsGenerator,
         ...vueCliOptions.pluginOptions?.imageModernizer
           ?.imageSrcsetLoaderOptions,
       };
