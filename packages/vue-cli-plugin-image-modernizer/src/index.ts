@@ -1,8 +1,9 @@
 import mime from "mime";
 
-import core, {
+import {
   IMAGE_FORMATS,
   VIMNodeTransformOptions,
+  createVIMNodeTransformWithOptions,
 } from "@vue-image-modernizer/core-vue3";
 import { PluginAPI, ProjectOptions } from "@vue/cli-service";
 
@@ -33,11 +34,11 @@ export default function (
     ): string {
       const imageMIMEType = mime.getType(path) as keyof typeof IMAGE_FORMATS;
       const targetMIMEType = type ?? imageMIMEType;
-      const format = core.IMAGE_FORMATS[targetMIMEType];
+      const format = IMAGE_FORMATS[targetMIMEType];
 
       const resizeLoaderOptions = {
         format: imageMIMEType === type ? undefined : format,
-        quality: options.quality[core.IMAGE_FORMATS[targetMIMEType]],
+        quality: options.quality[IMAGE_FORMATS[targetMIMEType]],
         ...vueCliOptions.pluginOptions?.imageModernizer
           ?.imageResizeLoaderOptions,
       };
@@ -53,11 +54,11 @@ export default function (
     ): string {
       const imageMIMEType = mime.getType(path) as keyof typeof IMAGE_FORMATS;
       const targetMIMEType = type ?? imageMIMEType;
-      const format = core.IMAGE_FORMATS[targetMIMEType];
+      const format = IMAGE_FORMATS[targetMIMEType];
 
       const resizeLoaderOptions = {
         format: imageMIMEType === type ? undefined : format,
-        quality: options.quality[core.IMAGE_FORMATS[targetMIMEType]],
+        quality: options.quality[IMAGE_FORMATS[targetMIMEType]],
         ...vueCliOptions.pluginOptions?.imageModernizer
           ?.imageSrcsetLoaderOptions,
       };
@@ -83,7 +84,7 @@ export default function (
           ...options?.compilerOptions,
           nodeTransforms: [
             ...(options?.compilerOptions?.nodeTransforms ?? []),
-            core.createVIMNodeTransformWithOptions({
+            createVIMNodeTransformWithOptions({
               compressFilePathTransformer,
               srcSetFilePathTransformer,
               ...vueCliOptions.pluginOptions?.imageModernizer,
