@@ -52,6 +52,23 @@ export default function (
     pluginOptions: { imageModernizer: ImageModernizerOptions };
   }
 ): void {
+  // const { semver, loadModule } = require('@vue/cli-shared-utils')
+  // const vue = loadModule('vue', api.service.context)
+  // const isVue3 = (vue && semver.major(vue.version) === 3)
+
+  // generate a cache id our own dependencies
+  const { cacheIdentifier } = api.genCacheConfig("vue-image-modernizer", {
+    "webpack-image-resize-loader": require("webpack-image-resize-loader/package.json")
+      ?.version,
+    "webpack-image-srcset-loader": require("webpack-image-srcset-loader/package.json")
+      ?.version,
+    "@vue-image-modernizer/core-vue3": require("@vue-image-modernizer/core-vue3/package.json")
+      ?.version,
+    "@vue-image-modernizer/vue-cli-plugin-image-modernizer": require("@vue-image-modernizer/vue-cli-plugin-image-modernizer/package.json")
+      ?.version,
+    config: vueCliOptions.pluginOptions?.imageModernizer,
+  });
+
   api.chainWebpack((config) => {
     const builtInImageLoader = config.module
       .rule("images")
@@ -109,14 +126,14 @@ export default function (
         fileLoader: "url-loader",
         fileLoaderOptionsGenerator,
         ...vueCliOptions.pluginOptions?.imageModernizer
-          ?.imageSrcsetLoaderOptions,
+          ?.imageResizeLoaderOptions,
       };
       const resizeLoaderOptionsString = JSON.stringify(resizeLoaderOptions);
 
       const srcsetLoaderOptions = {
         sizes: options.sizes,
         ...vueCliOptions.pluginOptions?.imageModernizer
-          ?.imageResizeLoaderOptions,
+          ?.imageSrcsetLoaderOptions,
       };
       const srcsetLoaderOptionsString = JSON.stringify(srcsetLoaderOptions);
 
@@ -129,6 +146,8 @@ export default function (
       .use("vue-loader")
       .tap((options) => ({
         ...options,
+        // concat the original cacheIdentifier with our cacheIdentifier
+        cacheIdentifier: (options.cacheIdentifier ?? "") + cacheIdentifier,
         compilerOptions: {
           ...options?.compilerOptions,
           nodeTransforms: [
