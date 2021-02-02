@@ -1,4 +1,6 @@
+import fs from "fs";
 import mime from "mime";
+import path from "path";
 import { Compiler, Plugin, loader } from "webpack";
 
 import {
@@ -46,6 +48,31 @@ class VueImageModernizerWebpackPlugin implements Plugin {
   }
 }
 
+/** delete all folders in cacheDirectory with names ending in "-loader", except for those in exceptions */
+function deleteLoaderCache(cacheDirectory: string, exceptions: string[]): void {
+  if (fs.existsSync(cacheDirectory)) {
+    fs.readdirSync(cacheDirectory, { withFileTypes: true })
+      .filter((dirent) => dirent.isDirectory())
+      .filter((dirent) => dirent.name.endsWith("-loader"))
+      .forEach((dirent) => {
+        const cacheFolderPath = path.join(cacheDirectory, dirent.name);
+
+        if (!exceptions.includes(cacheFolderPath)) {
+          fs.rmSync(cacheFolderPath, { recursive: true, force: true });
+        }
+      });
+  }
+}
+
+/** write cacheIdentifier to vimCachePath */
+function writeVimCache(vimCachePath: string, data: Record<string, any>): void {
+  const dirPath = path.dirname(vimCachePath);
+
+  if (!fs.existsSync(dirPath)) fs.mkdirSync(dirPath);
+
+  fs.writeFileSync(vimCachePath, JSON.stringify(data));
+}
+
 export default function (
   api: PluginAPI,
   vueCliOptions: ProjectOptions & {
@@ -56,7 +83,11 @@ export default function (
   // const vue = loadModule('vue', api.service.context)
   // const isVue3 = (vue && semver.major(vue.version) === 3)
 
-  // generate a cache id our own dependencies
+  const cacheDirectory = api.resolve("node_modules/.cache/");
+  const vimCachePath = api.resolve(
+    "node_modules/.cache/vue-image-modernizer.json"
+  );
+  // generate our own cacheIdentifier with our dependencies
   const { cacheIdentifier } = api.genCacheConfig("vue-image-modernizer", {
     "webpack-image-resize-loader": require("webpack-image-resize-loader/package.json")
       ?.version,
@@ -68,6 +99,20 @@ export default function (
       ?.version,
     config: vueCliOptions.pluginOptions?.imageModernizer,
   });
+
+  // if cacheIdentifier has changed or doesn't exist, delete loader caches, then write our cacheIdentifier
+  if (fs.existsSync(vimCachePath)) {
+    const vimCacheContent = fs.readFileSync(vimCachePath).toString();
+    const cachedCacheIdentifier = JSON.parse(vimCacheContent).cacheIdentifier;
+
+    if (cachedCacheIdentifier !== cacheIdentifier) {
+      deleteLoaderCache(cacheDirectory, [vimCachePath]);
+      writeVimCache(vimCachePath, { cacheIdentifier });
+    }
+  } else {
+    deleteLoaderCache(cacheDirectory, [vimCachePath]);
+    writeVimCache(vimCachePath, { cacheIdentifier });
+  }
 
   api.chainWebpack((config) => {
     const builtInImageLoader = config.module
