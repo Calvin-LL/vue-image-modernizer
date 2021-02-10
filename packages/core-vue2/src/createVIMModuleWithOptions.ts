@@ -80,10 +80,10 @@ function transformIntoPicture(
 ): void {
   const nodeClone = {
     ...node,
-    attrsList: [...node.attrsList],
-    attrsMap: { ...node.attrsMap },
-    attrs: [...(node.attrs ?? [])],
-    props: [...(node.props ?? [])],
+    attrsList: [],
+    attrsMap: {},
+    attrs: [],
+    props: [],
     children: [],
   };
 

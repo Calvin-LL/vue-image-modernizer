@@ -1,1 +1,1 @@
-export * from "./createVIMNodeTransformWithOptions";
+export * from "./createVIMModuleWithOptions";
