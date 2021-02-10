@@ -1,4 +1,4 @@
-import { IMAGE_FORMATS } from "../createVIMNodeTransformWithOptions";
+import { IMAGE_FORMATS } from "./index";
 
 export default function getMIMEFromImageFormat(
   imageFormat: typeof IMAGE_FORMATS[keyof typeof IMAGE_FORMATS]

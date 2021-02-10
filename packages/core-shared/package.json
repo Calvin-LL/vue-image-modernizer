@@ -1,7 +1,7 @@
 {
-  "name": "@vue-image-modernizer/core-vue3",
+  "name": "@vue-image-modernizer/core-shared",
   "version": "0.0.2-alpha.9+2ce1470",
-  "description": "@vue-image-modernizer/core-vue3",
+  "description": "@vue-image-modernizer/core-shared",
   "publishConfig": {
     "access": "public"
   },
@@ -27,15 +27,11 @@
   "bugs": "https://github.com/Calvin-LL/vue-image-modernizer/issues",
   "homepage": "https://github.com/Calvin-LL/vue-image-modernizer",
   "dependencies": {
-    "@vue-image-modernizer/core-shared": "^0.0.2-alpha.9+2ce1470",
-    "@vue/compiler-core": "^3.0.5",
     "mime": "^2.5.0"
   },
   "devDependencies": {
     "@types/jest": "^26.0.20",
     "@types/mime": "^2.0.3",
-    "@types/node": "^14.14.22",
-    "@vue/compiler-sfc": "^3.0.5"
-  },
-  "gitHead": "2ce1470db40d0034b51ada3e9c507bc643cee566"
+    "@types/node": "^14.14.22"
+  }
 }

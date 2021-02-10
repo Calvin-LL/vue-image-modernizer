@@ -1,4 +1,4 @@
-import parseElementLevelOptions from "../src/helpers/parseElementLevelOptions";
+import parseElementLevelOptions from "../src/parseElementLevelOptions";
 
 const optionStringResultPair = [
   ["", {}],

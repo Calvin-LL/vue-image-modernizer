@@ -1,13 +1,10 @@
 import mime from "mime";
 
-import {
-  IMAGE_FORMATS,
-  VIMNodeTransformOptions,
-} from "../createVIMNodeTransformWithOptions";
+import { IMAGE_FORMATS, VIMOptions } from "../index";
 
 export default function (
   path: string,
-  options: Omit<Required<VIMNodeTransformOptions>, "filePathTransformer">,
+  options: Omit<Required<VIMOptions>, "filePathTransformer">,
   type?: keyof typeof IMAGE_FORMATS
 ): string {
   const imageMIMEType = mime.getType(path) as keyof typeof IMAGE_FORMATS;

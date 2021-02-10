@@ -1,12 +1,12 @@
-import { VIMNodeTransformOptions } from "../createVIMNodeTransformWithOptions";
+import { VIMOptions } from "./index";
 
 interface ElementLevelOptions {
-  compressOnly?: VIMNodeTransformOptions["compressOnly"];
-  onlyUseImg?: VIMNodeTransformOptions["onlyUseImg"];
-  noLazy?: VIMNodeTransformOptions["noLazy"];
-  imageFormats?: VIMNodeTransformOptions["imageFormats"];
-  sizes?: VIMNodeTransformOptions["sizes"];
-  quality?: VIMNodeTransformOptions["quality"];
+  compressOnly?: VIMOptions["compressOnly"];
+  onlyUseImg?: VIMOptions["onlyUseImg"];
+  noLazy?: VIMOptions["noLazy"];
+  imageFormats?: VIMOptions["imageFormats"];
+  sizes?: VIMOptions["sizes"];
+  quality?: VIMOptions["quality"];
 }
 
 /**

@@ -1,6 +1,13 @@
 import mime from "mime";
 
 import {
+  IMAGE_FORMATS,
+  VIMOptions,
+  defaultVIMOptions,
+  getMIMEFromImageFormat,
+  parseElementLevelOptions,
+} from "@vue-image-modernizer/core-shared";
+import {
   AttributeNode,
   ConstantTypes,
   DirectiveNode,
@@ -15,84 +22,8 @@ import {
   transformElement,
 } from "@vue/compiler-core";
 
-import compressWebpack from "./filePathTransformers/compressWebpack";
-import srcSetWebpack from "./filePathTransformers/srcSetWebpack";
-import getMIMEFromImageFormat from "./helpers/getMIMEFromImageFormat";
-import parseElementLevelOptions from "./helpers/parseElementLevelOptions";
-
-export const IMAGE_FORMATS = {
-  "image/jpeg": "jpeg",
-  "image/png": "png",
-  "image/webp": "webp",
-} as const;
-
-export interface VIMNodeTransformOptions {
-  /**
-   * only transform to <img src="..." >
-   */
-  readonly compressOnly?: boolean;
-  /**
-   * only transform to <img src="..." srcset="..." >
-   */
-  readonly onlyUseImg?: boolean;
-  /**
-   * to not add loading="lazy"
-   */
-  readonly noLazy?: boolean;
-  /**
-   * attribute to look for
-   */
-  readonly attributeName?: string;
-  /**
-   * image formats to add sources for
-   *
-   * only the first format will be used if either `compressOnly` or `onlyUseImg` are true
-   */
-  readonly imageFormats?: (
-    | typeof IMAGE_FORMATS[keyof typeof IMAGE_FORMATS]
-    | "original"
-  )[];
-  /**
-   * sizes in srcset
-   */
-  readonly sizes?: (`${number}w` | `${number}x` | "original")[];
-  /**
-   * resulting image qualities
-   */
-  readonly quality?: Record<
-    typeof IMAGE_FORMATS[keyof typeof IMAGE_FORMATS],
-    number
-  >;
-  readonly compressFilePathTransformer?: (
-    path: string,
-    options: Omit<Required<VIMNodeTransformOptions>, "filePathTransformer">,
-    format?: keyof typeof IMAGE_FORMATS
-  ) => string;
-  readonly srcSetFilePathTransformer?: (
-    path: string,
-    options: Omit<Required<VIMNodeTransformOptions>, "filePathTransformer">,
-    format?: keyof typeof IMAGE_FORMATS
-  ) => string;
-}
-
-export const defaultVIMNodeTransformOptions: Required<VIMNodeTransformOptions> = {
-  compressOnly: false,
-  onlyUseImg: false,
-  noLazy: false,
-  attributeName: "modernize",
-  imageFormats: ["webp", "original"],
-  sizes: ["480w", "1024w", "1920w", "2560w", "original"],
-  quality: {
-    jpeg: 80,
-    webp: 80,
-    png: 100,
-  },
-  compressFilePathTransformer: compressWebpack,
-  srcSetFilePathTransformer: srcSetWebpack,
-};
-
 export function createVIMNodeTransformWithOptions(
-  options: VIMNodeTransformOptions
+  options: VIMOptions
 ): NodeTransform {
   return function modernizeImgs(node, context) {
     // eslint-disable-next-line @typescript-eslint/ban-types
@@ -123,13 +54,13 @@ export function createVIMNodeTransformWithOptions(
 export const vimNodeTransform: NodeTransform = (
   node,
   context,
-  options: VIMNodeTransformOptions = defaultVIMNodeTransformOptions
+  options: VIMOptions = defaultVIMOptions
 ) => {
   if (node.type !== NodeTypes.ELEMENT) return;
   if (node.props.length === 0) return;
   if (node.tag.toLowerCase() !== "img") return;
 
-  options = { ...defaultVIMNodeTransformOptions, ...options };
+  options = { ...defaultVIMOptions, ...options };
 
   const directiveAttribute = node.props.find(
     (attr) =>
@@ -149,7 +80,7 @@ export const vimNodeTransform: NodeTransform = (
       ...options.quality,
       ...elementLevelOptions.quality,
     },
-  } as Required<VIMNodeTransformOptions>;
+  } as Required<VIMOptions>;
 
   // src bind directive is created by transformAssetUrl
   const srcBindDirectiveIndex = node.props.findIndex(isPropSrcBindDirective);
@@ -213,7 +144,7 @@ function transformImgWithSrc(transformOptions: {
   srcPropIndex: number;
   srcProp: AttributeNode | DirectiveNode;
   directiveAttribute: AttributeNode;
-  options: Required<VIMNodeTransformOptions>;
+  options: Required<VIMOptions>;
   context: TransformContext;
 }): void | (() => void) {
   const {
@@ -267,7 +198,7 @@ function transformElementIntoPicture(transformOptions: {
   srcFilePath: string;
   srcProp: AttributeNode | DirectiveNode;
   directiveAttribute: AttributeNode;
-  options: Required<VIMNodeTransformOptions>;
+  options: Required<VIMOptions>;
   context: TransformContext;
 }): void | (() => void) {
   const {
