@@ -1,3 +1,4 @@
+import { VIMOptions } from "@vue-image-modernizer/core-shared";
 import {
   CodegenResult,
   baseParse,
@@ -8,15 +9,11 @@ import {
 } from "@vue/compiler-core";
 import { SFCTemplateCompileResults, compileTemplate } from "@vue/compiler-sfc";
 
-import {
-  VIMNodeTransformOptions,
-  createVIMNodeTransformWithOptions,
-  vimNodeTransform,
-} from "../src";
+import { createVIMNodeTransformWithOptions, vimNodeTransform } from "../src";
 
 function compileWithVIMNodeTransform(
   template: string,
-  options?: VIMNodeTransformOptions,
+  options?: VIMOptions,
   useCompileTemplate = true
 ): CodegenResult | SFCTemplateCompileResults {
   const t = options
@@ -44,7 +41,7 @@ function compileWithVIMNodeTransform(
 
 function compileWithVIMNodeTransformWithoutTransformAssetUrl(
   template: string,
-  options?: VIMNodeTransformOptions
+  options?: VIMOptions
 ): CodegenResult | SFCTemplateCompileResults {
   return compileWithVIMNodeTransform(template, options, false);
 }
