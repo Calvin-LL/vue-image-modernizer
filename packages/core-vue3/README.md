@@ -1,1 +1,1 @@
-# @vue-image-modernizer/core
+# @vue-image-modernizer/core-vue3

@@ -3,12 +3,12 @@ import mime from "mime";
 import path from "path";
 import { Compiler, Plugin, loader } from "webpack";
 
-import {
-  IMAGE_FORMATS,
-  VIMNodeTransformOptions,
-  createVIMNodeTransformWithOptions,
-} from "@vue-image-modernizer/core-vue3";
+import { IMAGE_FORMATS, VIMOptions } from "@vue-image-modernizer/core-shared";
+import { createVIMModuleWithOptions } from "@vue-image-modernizer/core-vue2";
+import { createVIMNodeTransformWithOptions } from "@vue-image-modernizer/core-vue3";
 import { PluginAPI, ProjectOptions } from "@vue/cli-service";
+// @ts-expect-error @vue/cli-shared-utils doesn't have typing
+import { loadModule, semver } from "@vue/cli-shared-utils";
 
 interface ImageModernizerOptions {
   imageResizeLoaderOptions: Record<string, any>;
@@ -79,9 +79,8 @@ export default function (
     pluginOptions: { imageModernizer: ImageModernizerOptions };
   }
 ): void {
-  // const { semver, loadModule } = require('@vue/cli-shared-utils')
-  // const vue = loadModule('vue', api.service.context)
-  // const isVue3 = (vue && semver.major(vue.version) === 3)
+  const vue = loadModule("vue", api.getCwd());
+  const isVue3 = vue && semver.major(vue.version) === 3;
 
   const cacheDirectory = api.resolve("node_modules/.cache/");
   const vimCachePath = api.resolve(
@@ -136,7 +135,7 @@ export default function (
 
     function compressFilePathTransformer(
       path: string,
-      options: Omit<Required<VIMNodeTransformOptions>, "filePathTransformer">,
+      options: Omit<Required<VIMOptions>, "filePathTransformer">,
       type?: keyof typeof IMAGE_FORMATS
     ): string {
       const imageMIMEType = mime.getType(path) as keyof typeof IMAGE_FORMATS;
@@ -158,7 +157,7 @@ export default function (
 
     function srcSetFilePathTransformer(
       path: string,
-      options: Omit<Required<VIMNodeTransformOptions>, "filePathTransformer">,
+      options: Omit<Required<VIMOptions>, "filePathTransformer">,
       type?: keyof typeof IMAGE_FORMATS
     ): string {
       const imageMIMEType = mime.getType(path) as keyof typeof IMAGE_FORMATS;
@@ -185,26 +184,47 @@ export default function (
       return `-!webpack-image-srcset-loader?${srcsetLoaderOptionsString}!${builtInImageLoader}?${builtInImageLoaderOptionsString}!webpack-image-resize-loader?${resizeLoaderOptionsString}!${path}`;
     }
 
-    config.module
-      .rule("vue")
-      .test(/\.vue$/)
-      .use("vue-loader")
-      .tap((options) => ({
-        ...options,
-        // concat the original cacheIdentifier with our cacheIdentifier
-        cacheIdentifier: (options.cacheIdentifier ?? "") + cacheIdentifier,
-        compilerOptions: {
-          ...options?.compilerOptions,
-          nodeTransforms: [
-            ...(options?.compilerOptions?.nodeTransforms ?? []),
-            createVIMNodeTransformWithOptions({
-              compressFilePathTransformer,
-              srcSetFilePathTransformer,
-              ...vueCliOptions.pluginOptions?.imageModernizer,
-            }),
-          ],
-        },
-      }));
+    const vimOptions = {
+      compressFilePathTransformer,
+      srcSetFilePathTransformer,
+      ...vueCliOptions.pluginOptions?.imageModernizer,
+    };
+
+    if (isVue3) {
+      config.module
+        .rule("vue")
+        .test(/\.vue$/)
+        .use("vue-loader")
+        .tap((options) => ({
+          ...options,
+          // concat the original cacheIdentifier with our cacheIdentifier
+          cacheIdentifier: (options.cacheIdentifier ?? "") + cacheIdentifier,
+          compilerOptions: {
+            ...options?.compilerOptions,
+            nodeTransforms: [
+              ...(options?.compilerOptions?.nodeTransforms ?? []),
+              createVIMNodeTransformWithOptions(vimOptions),
+            ],
+          },
+        }));
+    } else {
+      config.module
+        .rule("vue")
+        .test(/\.vue$/)
+        .use("vue-loader")
+        .tap((options) => ({
+          ...options,
+          // concat the original cacheIdentifier with our cacheIdentifier
+          cacheIdentifier: (options.cacheIdentifier ?? "") + cacheIdentifier,
+          compilerOptions: {
+            ...options?.compilerOptions,
+            modules: [
+              ...(options?.compilerOptions?.modules ?? []),
+              createVIMModuleWithOptions(vimOptions),
+            ],
+          },
+        }));
+    }
 
     config.plugin("vue-image-modernizer").use(VueImageModernizerWebpackPlugin);
   });

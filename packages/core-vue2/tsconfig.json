@@ -3,7 +3,8 @@
   "compilerOptions": {
     "lib": ["dom"],
     "outDir": "dist",
-    "types": ["node"]
+    "types": ["node"],
+    "declaration": true
   },
   "include": ["src/**/*.ts"]
 }

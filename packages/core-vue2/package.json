@@ -1,7 +1,7 @@
 {
-  "name": "@vue-image-modernizer/vue-cli-plugin-image-modernizer",
+  "name": "@vue-image-modernizer/core-vue2",
   "version": "0.0.2-alpha.9+2ce1470",
-  "description": "@vue-image-modernizer/vue-cli-plugin-image-modernizer",
+  "description": "@vue-image-modernizer/core-vue2",
   "publishConfig": {
     "access": "public"
   },
@@ -9,14 +9,14 @@
   "keywords": [
     "vue-image-modernizer"
   ],
-  "main": "index.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "files": [
-    "dist",
-    "index.js",
-    "generator.js"
+    "dist"
   ],
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "test": "jest"
   },
   "engines": {
     "node": ">= 10.13.0"
@@ -31,14 +31,12 @@
   "homepage": "https://github.com/Calvin-LL/vue-image-modernizer",
   "dependencies": {
     "@vue-image-modernizer/core-shared": "^0.0.2-alpha.9+2ce1470",
-    "@vue-image-modernizer/core-vue2": "^0.0.2-alpha.9+2ce1470",
-    "@vue-image-modernizer/core-vue3": "^0.0.2-alpha.9+2ce1470",
     "mime": "^2.5.0"
   },
   "devDependencies": {
+    "@types/jest": "^26.0.20",
     "@types/mime": "^2.0.3",
     "@types/node": "^14.14.22",
-    "@vue/cli-service": "^4.5.11"
-  },
-  "gitHead": "2ce1470db40d0034b51ada3e9c507bc643cee566"
+    "vue-template-compiler": "^2.6.12"
+  }
 }
