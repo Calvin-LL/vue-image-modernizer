@@ -213,7 +213,7 @@ function getSrcValue(
     format
   );
 
-  return `require('${compressedSrc}').default`;
+  return `require('${compressedSrc}')`;
 }
 
 function getSrcSetValue(
