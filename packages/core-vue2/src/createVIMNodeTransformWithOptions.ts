@@ -78,7 +78,14 @@ function transformIntoPicture(
   srcAttrRaw: ATTR,
   options: Required<VIMOptions>
 ): void {
-  const nodeClone = { ...node, children: [] };
+  const nodeClone = {
+    ...node,
+    attrsList: [...node.attrsList],
+    attrsMap: { ...node.attrsMap },
+    attrs: [...(node.attrs ?? [])],
+    props: [...(node.props ?? [])],
+    children: [],
+  };
 
   options.imageFormats.forEach((format) => {
     const mimeType =
@@ -111,6 +118,7 @@ function transformIntoPicture(
 
   node.children.push(nodeClone);
   node.tag = "picture";
+  removeAttr(node, "src");
 }
 
 function genSourceElement(
