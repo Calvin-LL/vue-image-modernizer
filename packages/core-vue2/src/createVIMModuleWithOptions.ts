@@ -77,8 +77,8 @@ export function transform(
   if (!combinedOptions.noLazy)
     addLoadingAttr(node as ASTElementWithAttr, directiveAttrRaw);
 
-  // remove 'modernize' tag in most cases, don't want to render it
-  removeAttr(node, combinedOptions.attributeName);
+  // remove 'modernize' tag (or another attributeName as specified), don't want to render it
+  removeAttr(node as ASTElementWithAttr, combinedOptions.attributeName);
 
   if (!combinedOptions.compressOnly && !combinedOptions.onlyUseImg)
     transformIntoPicture(node, directiveAttrRaw, srcAttrRaw, combinedOptions);
@@ -244,24 +244,22 @@ function getSrcSetValue(
   return `require('${srcSet}').default`;
 }
 
-function removeAttr(el: ASTElement, name: string): void {
-  const list = el.attrsList;
-  for (let i = 0, l = list.length; i < l; i++) {
-    if (list[i].name === name) {
-      list.splice(i, 1);
+function removeAttr(el: ASTElementWithAttr, name: string): void {
+  const { attrsList, attrs } = el;
+
+  for (let i = 0; i < attrsList.length; i++) {
+    if (attrsList[i].name === name) {
+      attrsList.splice(i, 1);
+      break;
+    }
+  }
+
+  for (let i = 0; i < attrs.length; i++) {
+    if (attrs[i].name === name) {
+      attrs.splice(i, 1);
       break;
     }
   }
 
   delete el.attrsMap[name];
-
-  if (el.attrs) {
-    const list = el.attrs;
-    for (let i = 0, l = list.length; i < l; i++) {
-      if (list[i].name === name) {
-        list.splice(i, 1);
-        break;
-      }
-    }
-  }
 }
