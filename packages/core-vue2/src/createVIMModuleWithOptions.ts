@@ -12,11 +12,14 @@ import {
 interface ATTR {
   name: string;
   value: any;
+  start?: number;
+  end?: number;
 }
 
-export function createVIMModuleWithOptions(
-  options: VIMOptions
-): Partial<ModuleOptions> {
+type ASTElementWithAttr = ASTElement & Pick<Required<ASTElement>, "attrs">;
+
+export function createVIMModuleWithOptions(options: VIMOptions): ModuleOptions {
+  // @ts-expect-error vue typing mistake https://github.com/vuejs/vue/issues/10812
   return {
     postTransformNode: (node: ASTNode) => {
       transform(node, options);
@@ -58,17 +61,26 @@ export function transform(
 
   if (srcAttrRaw === undefined) throw new Error("src attribute not found");
 
-  rewriteSrcAttr(node, srcAttr, srcAttrRaw, combinedOptions);
+  if (srcAttrRaw.value.length === 0)
+    throw new Error("src attribute does not have a value");
 
-  if (!options.compressOnly && options.onlyUseImg)
-    addSrcSetAttr(node, srcAttrRaw, combinedOptions);
+  rewriteSrcAttr(
+    node as ASTElementWithAttr,
+    srcAttr,
+    srcAttrRaw,
+    combinedOptions
+  );
 
-  if (!options.noLazy) addLoadingAttr(node, directiveAttrRaw);
+  if (!combinedOptions.compressOnly && combinedOptions.onlyUseImg)
+    addSrcSetAttr(node as ASTElementWithAttr, srcAttrRaw, combinedOptions);
+
+  if (!combinedOptions.noLazy)
+    addLoadingAttr(node as ASTElementWithAttr, directiveAttrRaw);
 
   // remove 'modernize' tag in most cases, don't want to render it
   removeAttr(node, combinedOptions.attributeName);
 
-  if (!options.compressOnly && !options.onlyUseImg)
+  if (!combinedOptions.compressOnly && !combinedOptions.onlyUseImg)
     transformIntoPicture(node, directiveAttrRaw, srcAttrRaw, combinedOptions);
 }
 
@@ -78,13 +90,18 @@ function transformIntoPicture(
   srcAttrRaw: ATTR,
   options: Required<VIMOptions>
 ): void {
-  const nodeClone = {
+  // used as the img tag inside picture
+  const nodeClone: ASTElement = {
     ...node,
-    attrsList: [],
-    attrsMap: {},
-    attrs: [],
-    props: [],
+    attrsList: [...(node.attrsList ?? [])],
+    attrsMap: { ...node.attrsMap },
+    // @ts-expect-error vue typing error
+    rawAttrsMap: { ...node.rawAttrsMap },
+    // keep them out if they weren't there initially
+    ...(node.attrs ? { attrs: [...node.attrs] } : {}),
+    ...(node.props ? { props: [...node.props] } : {}),
     children: [],
+    parent: node,
   };
 
   options.imageFormats.forEach((format) => {
@@ -96,28 +113,26 @@ function transformIntoPicture(
     // skip if there is already a source with the same type
     if (
       node.children.some(
-        (node) =>
-          node.type === 1 &&
-          node.attrs?.some(
-            (attr) => attr.name === "type" && attr.value === mimeType
+        (childNode) =>
+          childNode.type === 1 &&
+          childNode.attrs?.some(
+            (attr) => attr.name === "type" && attr.value === `"${mimeType}"`
           )
       )
     )
       return;
 
     node.children.push(
-      genSourceElement(
-        nodeClone,
-        srcAttrRaw,
-        directiveAttrRaw,
-        options,
-        mimeType
-      )
+      genSourceElement(node, srcAttrRaw, directiveAttrRaw, options, mimeType)
     );
   });
 
   node.children.push(nodeClone);
   node.tag = "picture";
+
+  delete node.attrs;
+  delete node.props;
+
   removeAttr(node, "src");
 }
 
@@ -128,8 +143,7 @@ function genSourceElement(
   options: Required<VIMOptions>,
   format: keyof typeof IMAGE_FORMATS
 ): ASTElement {
-  const sourceElement: ASTElement = {
-    ...directiveAttrRaw,
+  const sourceElement: ASTElementWithAttr = {
     type: 1,
     tag: "source",
     attrsList: [],
@@ -138,7 +152,12 @@ function genSourceElement(
     children: [],
     plain: false,
     attrs: [],
+    ...(directiveAttrRaw.start !== undefined &&
+    directiveAttrRaw.end !== undefined
+      ? { start: directiveAttrRaw.start, end: directiveAttrRaw.end }
+      : {}),
   };
+
   sourceElement.attrs!.push({
     ...directiveAttrRaw,
     name: "type",
@@ -153,14 +172,12 @@ function genSourceElement(
 }
 
 function rewriteSrcAttr(
-  node: ASTElement,
+  node: ASTElementWithAttr,
   srcAttr: ATTR | undefined,
   srcAttrRaw: ATTR,
   options: Required<VIMOptions>,
   format?: keyof typeof IMAGE_FORMATS
 ): void {
-  if (node.attrs === undefined) node.attrs = [];
-
   if (srcAttr) {
     srcAttr.value = getSrcValue(srcAttrRaw.value, options, format);
   } else {
@@ -174,13 +191,11 @@ function rewriteSrcAttr(
 }
 
 function addSrcSetAttr(
-  node: ASTElement,
+  node: ASTElementWithAttr,
   srcAttrRaw: ATTR,
   options: Required<VIMOptions>,
   format?: keyof typeof IMAGE_FORMATS
 ): void {
-  if (node.attrs === undefined) node.attrs = [];
-
   node.attrs.push({
     ...srcAttrRaw,
     name: "srcset",
@@ -190,8 +205,11 @@ function addSrcSetAttr(
   });
 }
 
-function addLoadingAttr(node: ASTElement, directiveAttrRaw: ATTR): void {
-  if (node.attrs === undefined) node.attrs = [];
+function addLoadingAttr(
+  node: ASTElementWithAttr,
+  directiveAttrRaw: ATTR
+): void {
+  if (node.attrs.some(({ name }) => name === "loading")) return;
 
   node.attrs.push({
     ...directiveAttrRaw,
