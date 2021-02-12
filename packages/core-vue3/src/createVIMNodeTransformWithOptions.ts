@@ -136,6 +136,8 @@ export const vimNodeTransform: NodeTransform = (
       context,
     });
   }
+
+  throw new Error("src attribute not found");
 };
 
 function transformImgWithSrc(transformOptions: {

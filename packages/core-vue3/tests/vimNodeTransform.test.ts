@@ -172,6 +172,12 @@ describe("vimNodeTransform", () => {
     );
   });
 
+  it("should throw if src doesn't exist", () => {
+    expect(() => {
+      compileWithVIMNodeTransform(`<img modernize/>`);
+    }).toThrowErrorMatchingInlineSnapshot(`"src attribute not found"`);
+  });
+
   describe("options", () => {
     it("should transform with compressOnly: true", () => {
       const result = compileWithVIMNodeTransform(
