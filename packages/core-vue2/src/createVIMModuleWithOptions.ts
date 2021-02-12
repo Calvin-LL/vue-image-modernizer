@@ -90,18 +90,23 @@ function transformIntoPicture(
   srcAttrRaw: ATTR,
   options: Required<VIMOptions>
 ): void {
+  const pictureNode: ASTElement = {
+    type: 1,
+    tag: "picture",
+    attrsList: [],
+    attrsMap: {},
+    // @ts-expect-error vue typing error
+    rawAttrsMap: { ...node.rawAttrsMap },
+    parent: node.parent,
+    children: [],
+  };
   // used as the img tag inside picture
   const nodeClone: ASTElement = {
     ...node,
-    attrsList: [...(node.attrsList ?? [])],
-    attrsMap: { ...node.attrsMap },
     // @ts-expect-error vue typing error
-    rawAttrsMap: { ...node.rawAttrsMap },
-    // keep them out if they weren't there initially
-    ...(node.attrs ? { attrs: [...node.attrs] } : {}),
-    ...(node.props ? { props: [...node.props] } : {}),
+    rawAttrsMap: {},
     children: [],
-    parent: node,
+    parent: pictureNode,
   };
 
   options.imageFormats.forEach((format) => {
@@ -112,7 +117,7 @@ function transformIntoPicture(
 
     // skip if there is already a source with the same type
     if (
-      node.children.some(
+      pictureNode.children.some(
         (childNode) =>
           childNode.type === 1 &&
           childNode.attrs?.some(
@@ -122,18 +127,39 @@ function transformIntoPicture(
     )
       return;
 
-    node.children.push(
-      genSourceElement(node, srcAttrRaw, directiveAttrRaw, options, mimeType)
+    pictureNode.children.push(
+      genSourceElement(
+        pictureNode,
+        srcAttrRaw,
+        directiveAttrRaw,
+        options,
+        mimeType
+      )
     );
   });
 
-  node.children.push(nodeClone);
-  node.tag = "picture";
-  node.attrsList = [];
-  node.attrsMap = {};
+  pictureNode.children.push(nodeClone);
 
-  delete node.attrs;
-  delete node.props;
+  replaceObjectContent(node, pictureNode);
+}
+
+/**
+ * Replace object in-place
+ *
+ * @param obj1 the object to write to
+ * @param obj2 the object whose content to write to obj1
+ */
+function replaceObjectContent(
+  obj1: Record<string, any>,
+  obj2: Record<string, any>
+): void {
+  for (const prop of Object.keys(obj1)) {
+    delete obj1[prop];
+  }
+
+  for (const prop of Object.keys(obj2)) {
+    obj1[prop] = obj2[prop];
+  }
 }
 
 function genSourceElement(
