@@ -874,31 +874,11 @@ describe("vimNodeTransform without transformAssetUrl", () => {
           attributeName: "test",
         }
       );
+      const expected = compileWithVIMNodeTransformWithoutTransformAssetUrl(
+        `<img src="./logo.png" modernize/>`
+      );
 
-      expect(result.code).toMatchInlineSnapshot(`
-        "import { createVNode as _createVNode, openBlock as _openBlock, createBlock as _createBlock } from \\"vue\\"
-        import _imports_0 from '-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"format\\":\\"webp\\",\\"quality\\":80}!./logo.png'
-        import _imports_1 from '-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"quality\\":100}!./logo.png'
-        import _imports_2 from '-!webpack-image-resize-loader?{\\"format\\":\\"png\\",\\"quality\\":100}!./logo.png'
-
-
-        export function render(_ctx, _cache) {
-          return (_openBlock(), _createBlock(\\"picture\\", null, [
-            _createVNode(\\"source\\", {
-              type: \\"image/webp\\",
-              srcset: _imports_0
-            }),
-            _createVNode(\\"source\\", {
-              type: \\"image/png\\",
-              srcset: _imports_1
-            }),
-            _createVNode(\\"img\\", {
-              src: _imports_2,
-              loading: \\"lazy\\"
-            })
-          ]))
-        }"
-      `);
+      expect(result.code).toMatch(expected.code);
     });
 
     it('should transform with imageFormats: ["png", "original"]', () => {
