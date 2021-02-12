@@ -129,11 +129,11 @@ function transformIntoPicture(
 
   node.children.push(nodeClone);
   node.tag = "picture";
+  node.attrsList = [];
+  node.attrsMap = {};
 
   delete node.attrs;
   delete node.props;
-
-  removeAttr(node, "src");
 }
 
 function genSourceElement(
