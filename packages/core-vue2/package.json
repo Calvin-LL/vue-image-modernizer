@@ -6,9 +6,6 @@
     "access": "public"
   },
   "license": "MIT",
-  "keywords": [
-    "vue-image-modernizer"
-  ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
