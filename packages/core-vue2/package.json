@@ -1,6 +1,6 @@
 {
   "name": "@vue-image-modernizer/core-vue2",
-  "version": "0.0.2-alpha.9+2ce1470",
+  "version": "1.0.0",
   "description": "@vue-image-modernizer/core-vue2",
   "publishConfig": {
     "access": "public"
