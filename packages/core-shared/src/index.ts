@@ -14,15 +14,15 @@ export const IMAGE_FORMATS = {
 
 export interface VIMOptions {
   /**
-   * only transform to <img src="..." >
+   * only compress the image and transform to `<img src="..." loading="lazy">`
    */
   readonly compressOnly?: boolean;
   /**
-   * only transform to <img src="..." srcset="..." >
+   * only transform to `<img src="..." srcset="..." loading="lazy">`
    */
   readonly onlyUseImg?: boolean;
   /**
-   * to not add loading="lazy"
+   * to not add `loading="lazy"`
    */
   readonly noLazy?: boolean;
   /**
@@ -30,9 +30,7 @@ export interface VIMOptions {
    */
   readonly attributeName?: string;
   /**
-   * image formats to add sources for
-   *
-   * only the first format will be used if either `compressOnly` or `onlyUseImg` are true
+   * image formats to add `<source>` elements for
    */
   readonly imageFormats?: (
     | typeof IMAGE_FORMATS[keyof typeof IMAGE_FORMATS]
