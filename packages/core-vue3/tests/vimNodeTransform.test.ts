@@ -53,7 +53,7 @@ describe("vimNodeTransform", () => {
     );
 
     expect(result.code).toMatchInlineSnapshot(`
-      "import { createVNode as _createVNode, undefined as _undefined, openBlock as _openBlock, createBlock as _createBlock } from \\"vue\\"
+      "import { createVNode as _createVNode, openBlock as _openBlock, createBlock as _createBlock } from \\"vue\\"
       import _imports_0 from '-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"format\\":\\"webp\\",\\"quality\\":80}!./logo.png'
       import _imports_1 from '-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"quality\\":100}!./logo.png'
       import _imports_2 from '-!webpack-image-resize-loader?{\\"format\\":\\"png\\",\\"quality\\":100}!./logo.png'
@@ -87,7 +87,7 @@ describe("vimNodeTransform", () => {
       `<img src="./logo.png" loading="auto" modernize/>`
     );
     expect(result.code).toMatchInlineSnapshot(`
-      "import { createVNode as _createVNode, undefined as _undefined, openBlock as _openBlock, createBlock as _createBlock } from \\"vue\\"
+      "import { createVNode as _createVNode, openBlock as _openBlock, createBlock as _createBlock } from \\"vue\\"
       import _imports_0 from '-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"format\\":\\"webp\\",\\"quality\\":80}!./logo.png'
       import _imports_1 from '-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"quality\\":100}!./logo.png'
       import _imports_2 from '-!webpack-image-resize-loader?{\\"format\\":\\"png\\",\\"quality\\":100}!./logo.png'
@@ -238,7 +238,7 @@ describe("vimNodeTransform", () => {
       );
 
       expect(result.code).toMatchInlineSnapshot(`
-        "import { createVNode as _createVNode, undefined as _undefined, openBlock as _openBlock, createBlock as _createBlock } from \\"vue\\"
+        "import { createVNode as _createVNode, openBlock as _openBlock, createBlock as _createBlock } from \\"vue\\"
         import _imports_0 from '-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"format\\":\\"webp\\",\\"quality\\":80}!./logo.png'
         import _imports_1 from '-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"quality\\":100}!./logo.png'
         import _imports_2 from '-!webpack-image-resize-loader?{\\"format\\":\\"png\\",\\"quality\\":100}!./logo.png'
@@ -328,7 +328,7 @@ describe("vimNodeTransform", () => {
       );
 
       expect(result.code).toMatchInlineSnapshot(`
-        "import { createVNode as _createVNode, undefined as _undefined, openBlock as _openBlock, createBlock as _createBlock } from \\"vue\\"
+        "import { createVNode as _createVNode, openBlock as _openBlock, createBlock as _createBlock } from \\"vue\\"
         import _imports_0 from '-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"format\\":\\"webp\\",\\"quality\\":80}!./logo.png'
         import _imports_1 from '-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"quality\\":100}!./logo.png'
         import _imports_2 from '-!webpack-image-resize-loader?{\\"format\\":\\"png\\",\\"quality\\":100}!./logo.png'
@@ -366,7 +366,7 @@ describe("vimNodeTransform", () => {
       );
 
       expect(result.code).toMatchInlineSnapshot(`
-        "import { createVNode as _createVNode, undefined as _undefined, openBlock as _openBlock, createBlock as _createBlock } from \\"vue\\"
+        "import { createVNode as _createVNode, openBlock as _openBlock, createBlock as _createBlock } from \\"vue\\"
         import _imports_0 from '-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"quality\\":100}!./logo.png'
         import _imports_1 from '-!webpack-image-resize-loader?{\\"format\\":\\"png\\",\\"quality\\":100}!./logo.png'
 
@@ -398,7 +398,7 @@ describe("vimNodeTransform", () => {
       );
 
       expect(result.code).toMatchInlineSnapshot(`
-        "import { createVNode as _createVNode, undefined as _undefined, openBlock as _openBlock, createBlock as _createBlock } from \\"vue\\"
+        "import { createVNode as _createVNode, openBlock as _openBlock, createBlock as _createBlock } from \\"vue\\"
         import _imports_0 from '-!webpack-image-srcset-loader?{\\"sizes\\":[\\"original\\"]}!webpack-image-resize-loader?{\\"format\\":\\"webp\\",\\"quality\\":80}!./logo.png'
         import _imports_1 from '-!webpack-image-srcset-loader?{\\"sizes\\":[\\"original\\"]}!webpack-image-resize-loader?{\\"quality\\":100}!./logo.png'
         import _imports_2 from '-!webpack-image-resize-loader?{\\"format\\":\\"png\\",\\"quality\\":100}!./logo.png'
@@ -440,7 +440,7 @@ describe("vimNodeTransform", () => {
       );
 
       expect(result.code).toMatchInlineSnapshot(`
-        "import { createVNode as _createVNode, undefined as _undefined, openBlock as _openBlock, createBlock as _createBlock } from \\"vue\\"
+        "import { createVNode as _createVNode, openBlock as _openBlock, createBlock as _createBlock } from \\"vue\\"
         import _imports_0 from '-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"format\\":\\"webp\\",\\"quality\\":50}!./logo.png'
         import _imports_1 from '-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"quality\\":50}!./logo.png'
         import _imports_2 from '-!webpack-image-resize-loader?{\\"format\\":\\"png\\",\\"quality\\":50}!./logo.png'
@@ -478,7 +478,7 @@ describe("vimNodeTransform", () => {
       );
 
       expect(result.code).toMatchInlineSnapshot(`
-        "import { createVNode as _createVNode, undefined as _undefined, openBlock as _openBlock, createBlock as _createBlock } from \\"vue\\"
+        "import { createVNode as _createVNode, openBlock as _openBlock, createBlock as _createBlock } from \\"vue\\"
         import _imports_0 from '-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"format\\":\\"webp\\",\\"quality\\":80}!./logo.png'
         import _imports_1 from '-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"quality\\":100}!./logo.png'
         import _imports_2 from 'test'
@@ -516,7 +516,7 @@ describe("vimNodeTransform", () => {
       );
 
       expect(result.code).toMatchInlineSnapshot(`
-        "import { createVNode as _createVNode, undefined as _undefined, openBlock as _openBlock, createBlock as _createBlock } from \\"vue\\"
+        "import { createVNode as _createVNode, openBlock as _openBlock, createBlock as _createBlock } from \\"vue\\"
         import _imports_0 from 'test'
         import _imports_1 from '-!webpack-image-resize-loader?{\\"format\\":\\"png\\",\\"quality\\":100}!./logo.png'
 
