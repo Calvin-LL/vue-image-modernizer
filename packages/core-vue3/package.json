@@ -1,6 +1,6 @@
 {
   "name": "@vue-image-modernizer/core-vue3",
-  "version": "1.0.0",
+  "version": "0.0.2-alpha.9+2ce1470",
   "description": "@vue-image-modernizer/core-vue3",
   "publishConfig": {
     "access": "public"
@@ -36,5 +36,6 @@
     "@types/mime": "^2.0.3",
     "@types/node": "^14.14.22",
     "@vue/compiler-sfc": "^3.0.5"
-  }
+  },
+  "gitHead": "2ce1470db40d0034b51ada3e9c507bc643cee566"
 }

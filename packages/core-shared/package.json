@@ -1,6 +1,6 @@
 {
   "name": "@vue-image-modernizer/core-shared",
-  "version": "1.0.0",
+  "version": "0.0.2-alpha.9+2ce1470",
   "description": "@vue-image-modernizer/core-shared",
   "publishConfig": {
     "access": "public"
