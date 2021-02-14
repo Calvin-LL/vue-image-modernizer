@@ -6,6 +6,8 @@
     "lint": "eslint --max-warnings 0 --ext .ts .",
     "lint:fix": "eslint --max-warnings 0 --fix --ext .ts .",
     "lint:markdown": "remark .",
+    "version": "lerna version",
+    "publish:alpha": "lerna publish --canary",
     "test": "lerna run test"
   },
   "devDependencies": {
