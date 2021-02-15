@@ -3,11 +3,12 @@
   "private": true,
   "scripts": {
     "build": "lerna run build",
-    "lint": "eslint --max-warnings 0 --ext .ts .",
+    "lint": "npm run lint:eslint && npm run lint:markdown",
+    "lint:eslint": "eslint --max-warnings 0 --ext .ts .",
     "lint:fix": "eslint --max-warnings 0 --fix --ext .ts .",
-    "lint:markdown": "remark .",
-    "version": "lerna version",
-    "publish:alpha": "lerna publish --canary",
+    "lint:markdown": "remark --frail .",
+    "release": "lerna version",
+    "release:alpha": "lerna publish --canary --preid alpha --pre-dist-tag alpha",
     "test": "lerna run test"
   },
   "devDependencies": {
