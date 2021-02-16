@@ -2,7 +2,7 @@ name: Create Release
 on:
   push:
     tags:
-      - "@vue-image-modernizer/*@*.*.*"
+      - "@vue-image-modernizer/**"
 
 jobs:
   test:
