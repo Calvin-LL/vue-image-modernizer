@@ -8,7 +8,7 @@
     "lint:eslint": "eslint --max-warnings 0 --ext .ts .",
     "lint:fix": "eslint --max-warnings 0 --fix --ext .ts .",
     "lint:markdown": "remark --frail .",
-    "release": "dotenv -- lerna publish --conventional-commits --no-push --create-release github",
+    "release": "npm run build && dotenv -- lerna publish --conventional-commits --create-release github",
     "release:alpha": "npm run build && lerna publish --canary --preid alpha --pre-dist-tag alpha",
     "test": "lerna run test"
   },
