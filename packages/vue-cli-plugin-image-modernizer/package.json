@@ -1,6 +1,6 @@
 {
   "name": "@vue-image-modernizer/vue-cli-plugin-image-modernizer",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A Vue plugin to make your images responsive",
   "publishConfig": {
     "access": "public"
@@ -39,9 +39,9 @@
   "bugs": "https://github.com/Calvin-LL/vue-image-modernizer/issues",
   "homepage": "https://github.com/Calvin-LL/vue-image-modernizer",
   "dependencies": {
-    "@vue-image-modernizer/core-shared": "^1.0.0",
-    "@vue-image-modernizer/core-vue2": "^1.0.0",
-    "@vue-image-modernizer/core-vue3": "^1.0.0",
+    "@vue-image-modernizer/core-shared": "^1.0.1",
+    "@vue-image-modernizer/core-vue2": "^1.0.1",
+    "@vue-image-modernizer/core-vue3": "^1.0.1",
     "mime": "^2.5.0"
   },
   "devDependencies": {
