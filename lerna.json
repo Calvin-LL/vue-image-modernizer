@@ -3,9 +3,9 @@
   "version": "independent",
   "command": {
     "version": {
-      "noPush": true,
-      "conventionalCommits": true,
-      "createRelease": "github",
+      "allowBranch": "release"
+    },
+    "publish": {
       "message": "chore(release): release"
     }
   }
