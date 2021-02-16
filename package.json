@@ -2,6 +2,7 @@
   "name": "vue-image-modernizer",
   "private": true,
   "scripts": {
+    "postinstall": "lerna bootstrap",
     "build": "lerna run build",
     "lint": "npm run lint:eslint && npm run lint:markdown",
     "lint:eslint": "eslint --max-warnings 0 --ext .ts .",
