@@ -4,8 +4,9 @@
 
 ## Plugins
 
-[vue-cli-plugin](https://github.com/Calvin-LL/vue-image-modernizer/tree/main/packages/vue-cli-plugin-image-modernizer)
-vite(WIP)
+- [vue-cli-plugin](https://github.com/Calvin-LL/vue-image-modernizer/tree/main/packages/vue-cli-plugin-image-modernizer)
+
+- vite(WIP)
 
 ## Introduction
 
