@@ -13,10 +13,10 @@
     "test": "lerna run test"
   },
   "devDependencies": {
-    "@commitlint/cli": "^11.0.0",
+    "@commitlint/cli": "^12.0.1",
     "@commitlint/config-conventional": "^11.0.0",
     "@typescript-eslint/eslint-plugin": "^4.14.1",
-    "@typescript-eslint/parser": "^4.15.2",
+    "@typescript-eslint/parser": "^4.16.1",
     "dotenv-cli": "^4.0.0",
     "eslint": "^7.18.0",
     "eslint-plugin-import-helpers": "^1.1.0",
