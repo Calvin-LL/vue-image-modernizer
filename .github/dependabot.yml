@@ -5,5 +5,8 @@ updates:
     schedule:
       interval: daily
       time: "13:00"
+    ignore:
+      - dependency-name: "husky"
+        versions: ["6.x"]
     open-pull-requests-limit: 5
     versioning-strategy: increase
