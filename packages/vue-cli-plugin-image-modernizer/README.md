@@ -6,6 +6,8 @@ A Vue plugin to turn your `<img>` tags into `<picture>` tags with `srcset` autom
 
 [Read more about responsive images](https://developer.mozilla.org/en-US/docs/Learn/HTML/Multimedia_and_embedding/Responsive_images)
 
+[Demo Project](https://github.com/Calvin-LL/vue-cli-plugin-image-modernizer-example)
+
 ## Install
 
 ```sh
