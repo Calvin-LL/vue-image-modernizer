@@ -16,11 +16,15 @@ import {
   ExpressionNode,
   NodeTransform,
   NodeTypes,
+  PlainElementNode,
   SourceLocation,
   TransformContext,
   createSimpleExpression,
-  transformElement,
 } from "@vue/compiler-core";
+
+interface ElementNodeWithVIMDate extends PlainElementNode {
+  vimDirectiveNode: DirectiveNode;
+}
 
 export function createVIMNodeTransformWithOptions(
   options: VIMOptions
@@ -57,6 +61,14 @@ export const vimNodeTransform: NodeTransform = (
   options: VIMOptions = defaultVIMOptions
 ) => {
   if (node.type !== NodeTypes.ELEMENT) return;
+
+  // if a <source> or <img> element is created by this transform, it'll have
+  // a vimDirectiveNode property
+  if ((node as ElementNodeWithVIMDate).vimDirectiveNode !== undefined) {
+    addVIMDirectiveToProp(node as ElementNodeWithVIMDate);
+    return;
+  }
+
   if (node.props.length === 0) return;
   if (node.tag.toLowerCase() !== "img") return;
 
@@ -88,8 +100,7 @@ export const vimNodeTransform: NodeTransform = (
     const srcBindDirective = node.props[srcBindDirectiveIndex] as DirectiveNode;
 
     const exp = srcBindDirective.exp;
-    const importsArray = Array.from(context.imports);
-    const srcImport = importsArray.find((i) => i.exp === exp);
+    const srcImport = context.imports.find((i) => i.exp === exp);
 
     if (srcImport === undefined)
       throw new Error("src attribute does not have a value");
@@ -99,8 +110,10 @@ export const vimNodeTransform: NodeTransform = (
     // srcImport.exp and srcBindDirective.exp are the same when
     // the current node is the first in the tree to import from that path
     // so it's safe to remove it
-    if (srcImport.exp === srcBindDirective.exp)
-      context.imports.delete(srcImport);
+    if (srcImport.exp === srcBindDirective.exp) {
+      const srcImportIndex = context.imports.indexOf(srcImport);
+      context.imports.splice(srcImportIndex, 1);
+    }
 
     return transformImgWithSrc({
       node,
@@ -212,9 +225,32 @@ function transformElementIntoPicture(transformOptions: {
     context,
   } = transformOptions;
 
-  const currentImgNodeClone: ElementNode = {
-    ...node,
-    props: node.props.filter((attribute) => attribute !== directiveAttribute),
+  const compressedSrcExp = getImportsExpressionExp(
+    options.compressFilePathTransformer(srcFilePath, options),
+    srcProp.loc,
+    context
+  );
+
+  const srcDirectiveNode = createSrcDirectiveNode(
+    compressedSrcExp,
+    srcProp.loc
+  );
+
+  const currentImgNodeClone: ElementNodeWithVIMDate = {
+    ...(node as PlainElementNode),
+    props: node.props.filter(
+      (attribute) =>
+        attribute !== directiveAttribute &&
+        !(
+          // if this transform comes before transformAssetUrl
+          (
+            isPropSrcAttribute(attribute) ||
+            // if this transform comes after transformAssetUrl, src will already be transformed into a directive
+            isPropSrcBindDirective(attribute)
+          )
+        )
+    ),
+    vimDirectiveNode: srcDirectiveNode,
   };
 
   if (!options.noLazy) {
@@ -228,104 +264,69 @@ function transformElementIntoPicture(transformOptions: {
     tagType: ElementTypes.ELEMENT,
     props: [],
     isSelfClosing: false,
-    children: [],
+    // add the current <img> node as a child
+    children: [currentImgNodeClone],
     loc: node.loc,
     codegenNode: undefined,
   };
 
-  pictureNode.children.push(currentImgNodeClone);
-
   context.replaceNode(pictureNode);
 
-  return () => {
-    if (context.currentNode !== pictureNode) return;
+  const sourceNodes: ElementNode[] = [];
 
-    const sourceNodes: ElementNode[] = [];
+  // add <source> elements
+  options.imageFormats.forEach((format) => {
+    const mimeType =
+      format === "original"
+        ? (mime.getType(srcFilePath) as keyof typeof IMAGE_FORMATS)
+        : getMIMEFromImageFormat(format);
 
-    // add source elements
-    options.imageFormats.forEach((format) => {
-      const mimeType =
-        format === "original"
-          ? (mime.getType(srcFilePath) as keyof typeof IMAGE_FORMATS)
-          : getMIMEFromImageFormat(format);
-
-      // skip if there is already a source with the same type
-      if (
-        sourceNodes.some(
-          (node) =>
-            node.props[0].type === NodeTypes.ATTRIBUTE &&
-            node.props[0].name === "type" &&
-            node.props[0].value?.content === mimeType
-        )
+    // skip if there is already a <source> with the same type
+    if (
+      sourceNodes.some(
+        (node) =>
+          node.props[0].type === NodeTypes.ATTRIBUTE &&
+          node.props[0].name === "type" &&
+          node.props[0].value?.content === mimeType
       )
-        return;
+    )
+      return;
 
-      const srcSetExp = getImportsExpressionExp(
-        options.srcSetFilePathTransformer(srcFilePath, options, mimeType),
-        srcProp.loc,
-        context
-      );
-
-      const sourceNode: ElementNode = {
-        type: NodeTypes.ELEMENT,
-        ns: node.ns,
-        tag: "source",
-        tagType: ElementTypes.ELEMENT,
-        props: [
-          {
-            type: NodeTypes.ATTRIBUTE,
-            name: "type",
-            value: {
-              type: 2,
-              content: mimeType,
-              loc: directiveAttribute.loc,
-            },
-            loc: directiveAttribute.loc,
-          },
-          createSrcSetDirectiveNode(srcSetExp, srcProp.loc),
-        ],
-        isSelfClosing: true,
-        children: [],
-        loc: node.loc,
-        codegenNode: undefined,
-      };
-
-      sourceNodes.push(sourceNode);
-    });
-
-    // put the source elements before the img element
-    pictureNode.children = [...sourceNodes, ...pictureNode.children];
-
-    const compressedSrcExp = getImportsExpressionExp(
-      options.compressFilePathTransformer(srcFilePath, options),
+    const srcSetExp = getImportsExpressionExp(
+      options.srcSetFilePathTransformer(srcFilePath, options, mimeType),
       srcProp.loc,
       context
     );
 
-    const srcAttributeIndex = currentImgNodeClone.props.findIndex(
-      (attr) =>
-        // if this transform comes before transformAssetUrl
-        isPropSrcAttribute(attr) ||
-        // if this transform comes after transformAssetUrl, src will already be transformed into a directive
-        isPropSrcBindDirective(attr)
-    );
+    const sourceNode: ElementNodeWithVIMDate = {
+      type: NodeTypes.ELEMENT,
+      ns: node.ns,
+      tag: "source",
+      tagType: ElementTypes.ELEMENT,
+      props: [
+        {
+          type: NodeTypes.ATTRIBUTE,
+          name: "type",
+          value: {
+            type: 2,
+            content: mimeType,
+            loc: directiveAttribute.loc,
+          },
+          loc: directiveAttribute.loc,
+        },
+      ],
+      isSelfClosing: true,
+      children: [],
+      loc: node.loc,
+      codegenNode: undefined,
+      vimDirectiveNode: createSrcSetDirectiveNode(srcSetExp, srcProp.loc),
+    };
 
-    if (srcAttributeIndex === -1) throw new Error("src attribute not found");
+    sourceNodes.push(sourceNode);
+  });
 
-    // replace the src node with new directive node that has the compressed image
-    currentImgNodeClone.props[srcAttributeIndex] = createSrcDirectiveNode(
-      compressedSrcExp,
-      srcProp.loc
-    );
-
-    // TODO: remove when https://github.com/vuejs/vue-next/pull/2927 is merged
-    (transformElement(pictureNode, context) as () => void)();
-    pictureNode.children.forEach((node) => {
-      if (node.type !== NodeTypes.ELEMENT) return;
-      node.codegenNode = undefined;
-      (transformElement(node, context) as () => void)();
-    });
-  };
+  // put the source elements before the img element
+  pictureNode.children = [...sourceNodes, ...pictureNode.children];
 }
 
 function addLoadingAttribute(
@@ -336,6 +337,12 @@ function addLoadingAttribute(
   if (node.props.some(({ name }) => name === "loading")) return;
 
   node.props.push(createLoadingAttributeNode(sourceLoc));
+}
+
+function addVIMDirectiveToProp(node: ElementNodeWithVIMDate): void {
+  node.props.push(node.vimDirectiveNode);
+  // @ts-expect-error typescript thinks vimDirectiveNode has to be there
+  delete node.vimDirectiveNode;
 }
 
 function createSrcDirectiveNode(
@@ -403,14 +410,13 @@ function getImportsExpressionExp(
   loc: SourceLocation,
   context: TransformContext
 ): ExpressionNode {
-  const importsArray = Array.from(context.imports);
-  const existing = importsArray.find((i) => i.path === path);
+  const existing = context.imports.find((i) => i.path === path);
   if (existing) {
     return existing.exp as ExpressionNode;
   }
-  const name = `_imports_${importsArray.length}`;
+  const name = `_imports_${context.imports.length}`;
   const exp = createSimpleExpression(name, false, loc, ConstantTypes.CAN_HOIST);
-  context.imports.add({ exp, path });
+  context.imports.push({ exp, path });
 
   return exp;
 }

@@ -50,26 +50,31 @@ describe("vimNodeTransform", () => {
   it("should transform src", () => {
     const result = compileWithVIMNodeTransform(
       `<img src="./logo.png" modernize/>`
+      // ` <picture>
+      //     <source type="image/webp" :srcset="require('test1')">
+      //     <img src="./test2.png">
+      //   </picture>`
+      // '<img src="./test2.png">'
     );
 
     expect(result.code).toMatchInlineSnapshot(`
       "import { createVNode as _createVNode, openBlock as _openBlock, createBlock as _createBlock } from \\"vue\\"
-      import _imports_0 from '-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"format\\":\\"webp\\",\\"quality\\":80}!./logo.png'
-      import _imports_1 from '-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"quality\\":100}!./logo.png'
-      import _imports_2 from '-!webpack-image-resize-loader?{\\"format\\":\\"png\\",\\"quality\\":100}!./logo.png'
+      import _imports_0 from '-!webpack-image-resize-loader?{\\"format\\":\\"png\\",\\"quality\\":100}!./logo.png'
+      import _imports_1 from '-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"format\\":\\"webp\\",\\"quality\\":80}!./logo.png'
+      import _imports_2 from '-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"quality\\":100}!./logo.png'
 
 
       const _hoisted_1 = /*#__PURE__*/_createVNode(\\"source\\", {
         type: \\"image/webp\\",
-        srcset: _imports_0
+        srcset: _imports_1
       }, null, -1 /* HOISTED */)
       const _hoisted_2 = /*#__PURE__*/_createVNode(\\"source\\", {
         type: \\"image/png\\",
-        srcset: _imports_1
+        srcset: _imports_2
       }, null, -1 /* HOISTED */)
       const _hoisted_3 = /*#__PURE__*/_createVNode(\\"img\\", {
-        src: _imports_2,
-        loading: \\"lazy\\"
+        loading: \\"lazy\\",
+        src: _imports_0
       }, null, -1 /* HOISTED */)
 
       export function render(_ctx, _cache) {
@@ -88,22 +93,22 @@ describe("vimNodeTransform", () => {
     );
     expect(result.code).toMatchInlineSnapshot(`
       "import { createVNode as _createVNode, openBlock as _openBlock, createBlock as _createBlock } from \\"vue\\"
-      import _imports_0 from '-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"format\\":\\"webp\\",\\"quality\\":80}!./logo.png'
-      import _imports_1 from '-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"quality\\":100}!./logo.png'
-      import _imports_2 from '-!webpack-image-resize-loader?{\\"format\\":\\"png\\",\\"quality\\":100}!./logo.png'
+      import _imports_0 from '-!webpack-image-resize-loader?{\\"format\\":\\"png\\",\\"quality\\":100}!./logo.png'
+      import _imports_1 from '-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"format\\":\\"webp\\",\\"quality\\":80}!./logo.png'
+      import _imports_2 from '-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"quality\\":100}!./logo.png'
 
 
       const _hoisted_1 = /*#__PURE__*/_createVNode(\\"source\\", {
         type: \\"image/webp\\",
-        srcset: _imports_0
+        srcset: _imports_1
       }, null, -1 /* HOISTED */)
       const _hoisted_2 = /*#__PURE__*/_createVNode(\\"source\\", {
         type: \\"image/png\\",
-        srcset: _imports_1
+        srcset: _imports_2
       }, null, -1 /* HOISTED */)
       const _hoisted_3 = /*#__PURE__*/_createVNode(\\"img\\", {
-        src: _imports_2,
-        loading: \\"auto\\"
+        loading: \\"auto\\",
+        src: _imports_0
       }, null, -1 /* HOISTED */)
 
       export function render(_ctx, _cache) {
@@ -120,7 +125,7 @@ describe("vimNodeTransform", () => {
     const result = compileWithVIMNodeTransform(`<img src="./logo.png"/>`);
 
     expect(result.code).toMatchInlineSnapshot(`
-      "import { createVNode as _createVNode, openBlock as _openBlock, createBlock as _createBlock } from \\"vue\\"
+      "import { openBlock as _openBlock, createBlock as _createBlock } from \\"vue\\"
       import _imports_0 from './logo.png'
 
 
@@ -136,7 +141,7 @@ describe("vimNodeTransform", () => {
     const result = compileWithVIMNodeTransform("<img />");
 
     expect(result.code).toMatchInlineSnapshot(`
-      "import { createVNode as _createVNode, openBlock as _openBlock, createBlock as _createBlock } from \\"vue\\"
+      "import { openBlock as _openBlock, createBlock as _createBlock } from \\"vue\\"
 
       export function render(_ctx, _cache) {
         return (_openBlock(), _createBlock(\\"img\\"))
@@ -150,7 +155,7 @@ describe("vimNodeTransform", () => {
     );
 
     expect(result.code).toMatchInlineSnapshot(`
-      "import { createVNode as _createVNode, openBlock as _openBlock, createBlock as _createBlock } from \\"vue\\"
+      "import { openBlock as _openBlock, createBlock as _createBlock } from \\"vue\\"
 
       const _hoisted_1 = {
         src: \\"./logo.png\\",
@@ -188,7 +193,7 @@ describe("vimNodeTransform", () => {
       );
 
       expect(result.code).toMatchInlineSnapshot(`
-        "import { createVNode as _createVNode, openBlock as _openBlock, createBlock as _createBlock } from \\"vue\\"
+        "import { openBlock as _openBlock, createBlock as _createBlock } from \\"vue\\"
         import _imports_0 from '-!webpack-image-resize-loader?{\\"format\\":\\"png\\",\\"quality\\":100}!./logo.png'
 
 
@@ -212,7 +217,7 @@ describe("vimNodeTransform", () => {
       );
 
       expect(result.code).toMatchInlineSnapshot(`
-        "import { createVNode as _createVNode, openBlock as _openBlock, createBlock as _createBlock } from \\"vue\\"
+        "import { openBlock as _openBlock, createBlock as _createBlock } from \\"vue\\"
         import _imports_0 from '-!webpack-image-resize-loader?{\\"format\\":\\"png\\",\\"quality\\":100}!./logo.png'
         import _imports_1 from '-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"format\\":\\"png\\",\\"quality\\":100}!./logo.png'
 
@@ -239,20 +244,20 @@ describe("vimNodeTransform", () => {
 
       expect(result.code).toMatchInlineSnapshot(`
         "import { createVNode as _createVNode, openBlock as _openBlock, createBlock as _createBlock } from \\"vue\\"
-        import _imports_0 from '-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"format\\":\\"webp\\",\\"quality\\":80}!./logo.png'
-        import _imports_1 from '-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"quality\\":100}!./logo.png'
-        import _imports_2 from '-!webpack-image-resize-loader?{\\"format\\":\\"png\\",\\"quality\\":100}!./logo.png'
+        import _imports_0 from '-!webpack-image-resize-loader?{\\"format\\":\\"png\\",\\"quality\\":100}!./logo.png'
+        import _imports_1 from '-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"format\\":\\"webp\\",\\"quality\\":80}!./logo.png'
+        import _imports_2 from '-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"quality\\":100}!./logo.png'
 
 
         const _hoisted_1 = /*#__PURE__*/_createVNode(\\"source\\", {
           type: \\"image/webp\\",
-          srcset: _imports_0
+          srcset: _imports_1
         }, null, -1 /* HOISTED */)
         const _hoisted_2 = /*#__PURE__*/_createVNode(\\"source\\", {
           type: \\"image/png\\",
-          srcset: _imports_1
+          srcset: _imports_2
         }, null, -1 /* HOISTED */)
-        const _hoisted_3 = /*#__PURE__*/_createVNode(\\"img\\", { src: _imports_2 }, null, -1 /* HOISTED */)
+        const _hoisted_3 = /*#__PURE__*/_createVNode(\\"img\\", { src: _imports_0 }, null, -1 /* HOISTED */)
 
         export function render(_ctx, _cache) {
           return (_openBlock(), _createBlock(\\"picture\\", null, [
@@ -284,7 +289,7 @@ describe("vimNodeTransform", () => {
       );
 
       expect(result.code).toMatchInlineSnapshot(`
-        "import { createVNode as _createVNode, openBlock as _openBlock, createBlock as _createBlock } from \\"vue\\"
+        "import { openBlock as _openBlock, createBlock as _createBlock } from \\"vue\\"
         import _imports_0 from '-!webpack-image-resize-loader?{\\"format\\":\\"png\\",\\"quality\\":100}!./logo.png'
 
 
@@ -303,7 +308,7 @@ describe("vimNodeTransform", () => {
       );
 
       expect(result.code).toMatchInlineSnapshot(`
-        "import { createVNode as _createVNode, openBlock as _openBlock, createBlock as _createBlock } from \\"vue\\"
+        "import { openBlock as _openBlock, createBlock as _createBlock } from \\"vue\\"
         import _imports_0 from '-!webpack-image-resize-loader?{\\"format\\":\\"png\\",\\"quality\\":100}!./logo.png'
         import _imports_1 from '-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"format\\":\\"png\\",\\"quality\\":100}!./logo.png'
 
@@ -329,22 +334,22 @@ describe("vimNodeTransform", () => {
 
       expect(result.code).toMatchInlineSnapshot(`
         "import { createVNode as _createVNode, openBlock as _openBlock, createBlock as _createBlock } from \\"vue\\"
-        import _imports_0 from '-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"format\\":\\"webp\\",\\"quality\\":80}!./logo.png'
-        import _imports_1 from '-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"quality\\":100}!./logo.png'
-        import _imports_2 from '-!webpack-image-resize-loader?{\\"format\\":\\"png\\",\\"quality\\":100}!./logo.png'
+        import _imports_0 from '-!webpack-image-resize-loader?{\\"format\\":\\"png\\",\\"quality\\":100}!./logo.png'
+        import _imports_1 from '-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"format\\":\\"webp\\",\\"quality\\":80}!./logo.png'
+        import _imports_2 from '-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"quality\\":100}!./logo.png'
 
 
         const _hoisted_1 = /*#__PURE__*/_createVNode(\\"source\\", {
           type: \\"image/webp\\",
-          srcset: _imports_0
+          srcset: _imports_1
         }, null, -1 /* HOISTED */)
         const _hoisted_2 = /*#__PURE__*/_createVNode(\\"source\\", {
           type: \\"image/png\\",
-          srcset: _imports_1
+          srcset: _imports_2
         }, null, -1 /* HOISTED */)
         const _hoisted_3 = /*#__PURE__*/_createVNode(\\"img\\", {
-          src: _imports_2,
-          loading: \\"lazy\\"
+          loading: \\"lazy\\",
+          src: _imports_0
         }, null, -1 /* HOISTED */)
 
         export function render(_ctx, _cache) {
@@ -367,17 +372,17 @@ describe("vimNodeTransform", () => {
 
       expect(result.code).toMatchInlineSnapshot(`
         "import { createVNode as _createVNode, openBlock as _openBlock, createBlock as _createBlock } from \\"vue\\"
-        import _imports_0 from '-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"quality\\":100}!./logo.png'
-        import _imports_1 from '-!webpack-image-resize-loader?{\\"format\\":\\"png\\",\\"quality\\":100}!./logo.png'
+        import _imports_0 from '-!webpack-image-resize-loader?{\\"format\\":\\"png\\",\\"quality\\":100}!./logo.png'
+        import _imports_1 from '-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"quality\\":100}!./logo.png'
 
 
         const _hoisted_1 = /*#__PURE__*/_createVNode(\\"source\\", {
           type: \\"image/png\\",
-          srcset: _imports_0
+          srcset: _imports_1
         }, null, -1 /* HOISTED */)
         const _hoisted_2 = /*#__PURE__*/_createVNode(\\"img\\", {
-          src: _imports_1,
-          loading: \\"lazy\\"
+          loading: \\"lazy\\",
+          src: _imports_0
         }, null, -1 /* HOISTED */)
 
         export function render(_ctx, _cache) {
@@ -399,22 +404,22 @@ describe("vimNodeTransform", () => {
 
       expect(result.code).toMatchInlineSnapshot(`
         "import { createVNode as _createVNode, openBlock as _openBlock, createBlock as _createBlock } from \\"vue\\"
-        import _imports_0 from '-!webpack-image-srcset-loader?{\\"sizes\\":[\\"original\\"]}!webpack-image-resize-loader?{\\"format\\":\\"webp\\",\\"quality\\":80}!./logo.png'
-        import _imports_1 from '-!webpack-image-srcset-loader?{\\"sizes\\":[\\"original\\"]}!webpack-image-resize-loader?{\\"quality\\":100}!./logo.png'
-        import _imports_2 from '-!webpack-image-resize-loader?{\\"format\\":\\"png\\",\\"quality\\":100}!./logo.png'
+        import _imports_0 from '-!webpack-image-resize-loader?{\\"format\\":\\"png\\",\\"quality\\":100}!./logo.png'
+        import _imports_1 from '-!webpack-image-srcset-loader?{\\"sizes\\":[\\"original\\"]}!webpack-image-resize-loader?{\\"format\\":\\"webp\\",\\"quality\\":80}!./logo.png'
+        import _imports_2 from '-!webpack-image-srcset-loader?{\\"sizes\\":[\\"original\\"]}!webpack-image-resize-loader?{\\"quality\\":100}!./logo.png'
 
 
         const _hoisted_1 = /*#__PURE__*/_createVNode(\\"source\\", {
           type: \\"image/webp\\",
-          srcset: _imports_0
+          srcset: _imports_1
         }, null, -1 /* HOISTED */)
         const _hoisted_2 = /*#__PURE__*/_createVNode(\\"source\\", {
           type: \\"image/png\\",
-          srcset: _imports_1
+          srcset: _imports_2
         }, null, -1 /* HOISTED */)
         const _hoisted_3 = /*#__PURE__*/_createVNode(\\"img\\", {
-          src: _imports_2,
-          loading: \\"lazy\\"
+          loading: \\"lazy\\",
+          src: _imports_0
         }, null, -1 /* HOISTED */)
 
         export function render(_ctx, _cache) {
@@ -441,22 +446,22 @@ describe("vimNodeTransform", () => {
 
       expect(result.code).toMatchInlineSnapshot(`
         "import { createVNode as _createVNode, openBlock as _openBlock, createBlock as _createBlock } from \\"vue\\"
-        import _imports_0 from '-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"format\\":\\"webp\\",\\"quality\\":50}!./logo.png'
-        import _imports_1 from '-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"quality\\":50}!./logo.png'
-        import _imports_2 from '-!webpack-image-resize-loader?{\\"format\\":\\"png\\",\\"quality\\":50}!./logo.png'
+        import _imports_0 from '-!webpack-image-resize-loader?{\\"format\\":\\"png\\",\\"quality\\":50}!./logo.png'
+        import _imports_1 from '-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"format\\":\\"webp\\",\\"quality\\":50}!./logo.png'
+        import _imports_2 from '-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"quality\\":50}!./logo.png'
 
 
         const _hoisted_1 = /*#__PURE__*/_createVNode(\\"source\\", {
           type: \\"image/webp\\",
-          srcset: _imports_0
+          srcset: _imports_1
         }, null, -1 /* HOISTED */)
         const _hoisted_2 = /*#__PURE__*/_createVNode(\\"source\\", {
           type: \\"image/png\\",
-          srcset: _imports_1
+          srcset: _imports_2
         }, null, -1 /* HOISTED */)
         const _hoisted_3 = /*#__PURE__*/_createVNode(\\"img\\", {
-          src: _imports_2,
-          loading: \\"lazy\\"
+          loading: \\"lazy\\",
+          src: _imports_0
         }, null, -1 /* HOISTED */)
 
         export function render(_ctx, _cache) {
@@ -479,22 +484,22 @@ describe("vimNodeTransform", () => {
 
       expect(result.code).toMatchInlineSnapshot(`
         "import { createVNode as _createVNode, openBlock as _openBlock, createBlock as _createBlock } from \\"vue\\"
-        import _imports_0 from '-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"format\\":\\"webp\\",\\"quality\\":80}!./logo.png'
-        import _imports_1 from '-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"quality\\":100}!./logo.png'
-        import _imports_2 from 'test'
+        import _imports_0 from 'test'
+        import _imports_1 from '-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"format\\":\\"webp\\",\\"quality\\":80}!./logo.png'
+        import _imports_2 from '-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"quality\\":100}!./logo.png'
 
 
         const _hoisted_1 = /*#__PURE__*/_createVNode(\\"source\\", {
           type: \\"image/webp\\",
-          srcset: _imports_0
+          srcset: _imports_1
         }, null, -1 /* HOISTED */)
         const _hoisted_2 = /*#__PURE__*/_createVNode(\\"source\\", {
           type: \\"image/png\\",
-          srcset: _imports_1
+          srcset: _imports_2
         }, null, -1 /* HOISTED */)
         const _hoisted_3 = /*#__PURE__*/_createVNode(\\"img\\", {
-          src: _imports_2,
-          loading: \\"lazy\\"
+          loading: \\"lazy\\",
+          src: _imports_0
         }, null, -1 /* HOISTED */)
 
         export function render(_ctx, _cache) {
@@ -517,21 +522,21 @@ describe("vimNodeTransform", () => {
 
       expect(result.code).toMatchInlineSnapshot(`
         "import { createVNode as _createVNode, openBlock as _openBlock, createBlock as _createBlock } from \\"vue\\"
-        import _imports_0 from 'test'
-        import _imports_1 from '-!webpack-image-resize-loader?{\\"format\\":\\"png\\",\\"quality\\":100}!./logo.png'
+        import _imports_0 from '-!webpack-image-resize-loader?{\\"format\\":\\"png\\",\\"quality\\":100}!./logo.png'
+        import _imports_1 from 'test'
 
 
         const _hoisted_1 = /*#__PURE__*/_createVNode(\\"source\\", {
           type: \\"image/webp\\",
-          srcset: _imports_0
+          srcset: _imports_1
         }, null, -1 /* HOISTED */)
         const _hoisted_2 = /*#__PURE__*/_createVNode(\\"source\\", {
           type: \\"image/png\\",
-          srcset: _imports_0
+          srcset: _imports_1
         }, null, -1 /* HOISTED */)
         const _hoisted_3 = /*#__PURE__*/_createVNode(\\"img\\", {
-          src: _imports_1,
-          loading: \\"lazy\\"
+          loading: \\"lazy\\",
+          src: _imports_0
         }, null, -1 /* HOISTED */)
 
         export function render(_ctx, _cache) {
@@ -629,24 +634,24 @@ describe("vimNodeTransform without transformAssetUrl", () => {
 
     expect(result.code).toMatchInlineSnapshot(`
       "import { createVNode as _createVNode, openBlock as _openBlock, createBlock as _createBlock } from \\"vue\\"
-      import _imports_0 from '-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"format\\":\\"webp\\",\\"quality\\":80}!./logo.png'
-      import _imports_1 from '-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"quality\\":100}!./logo.png'
-      import _imports_2 from '-!webpack-image-resize-loader?{\\"format\\":\\"png\\",\\"quality\\":100}!./logo.png'
+      import _imports_0 from '-!webpack-image-resize-loader?{\\"format\\":\\"png\\",\\"quality\\":100}!./logo.png'
+      import _imports_1 from '-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"format\\":\\"webp\\",\\"quality\\":80}!./logo.png'
+      import _imports_2 from '-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"quality\\":100}!./logo.png'
 
 
       export function render(_ctx, _cache) {
         return (_openBlock(), _createBlock(\\"picture\\", null, [
           _createVNode(\\"source\\", {
             type: \\"image/webp\\",
-            srcset: _imports_0
+            srcset: _imports_1
           }),
           _createVNode(\\"source\\", {
             type: \\"image/png\\",
-            srcset: _imports_1
+            srcset: _imports_2
           }),
           _createVNode(\\"img\\", {
-            src: _imports_2,
-            loading: \\"lazy\\"
+            loading: \\"lazy\\",
+            src: _imports_0
           })
         ]))
       }"
@@ -659,24 +664,24 @@ describe("vimNodeTransform without transformAssetUrl", () => {
     );
     expect(result.code).toMatchInlineSnapshot(`
       "import { createVNode as _createVNode, openBlock as _openBlock, createBlock as _createBlock } from \\"vue\\"
-      import _imports_0 from '-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"format\\":\\"webp\\",\\"quality\\":80}!./logo.png'
-      import _imports_1 from '-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"quality\\":100}!./logo.png'
-      import _imports_2 from '-!webpack-image-resize-loader?{\\"format\\":\\"png\\",\\"quality\\":100}!./logo.png'
+      import _imports_0 from '-!webpack-image-resize-loader?{\\"format\\":\\"png\\",\\"quality\\":100}!./logo.png'
+      import _imports_1 from '-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"format\\":\\"webp\\",\\"quality\\":80}!./logo.png'
+      import _imports_2 from '-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"quality\\":100}!./logo.png'
 
 
       export function render(_ctx, _cache) {
         return (_openBlock(), _createBlock(\\"picture\\", null, [
           _createVNode(\\"source\\", {
             type: \\"image/webp\\",
-            srcset: _imports_0
+            srcset: _imports_1
           }),
           _createVNode(\\"source\\", {
             type: \\"image/png\\",
-            srcset: _imports_1
+            srcset: _imports_2
           }),
           _createVNode(\\"img\\", {
-            src: _imports_2,
-            loading: \\"auto\\"
+            loading: \\"auto\\",
+            src: _imports_0
           })
         ]))
       }"
@@ -689,7 +694,7 @@ describe("vimNodeTransform without transformAssetUrl", () => {
     );
 
     expect(result.code).toMatchInlineSnapshot(`
-      "import { createVNode as _createVNode, openBlock as _openBlock, createBlock as _createBlock } from \\"vue\\"
+      "import { openBlock as _openBlock, createBlock as _createBlock } from \\"vue\\"
 
       export function render(_ctx, _cache) {
         return (_openBlock(), _createBlock(\\"img\\", { src: \\"./logo.png\\" }))
@@ -703,7 +708,7 @@ describe("vimNodeTransform without transformAssetUrl", () => {
     );
 
     expect(result.code).toMatchInlineSnapshot(`
-      "import { createVNode as _createVNode, openBlock as _openBlock, createBlock as _createBlock } from \\"vue\\"
+      "import { openBlock as _openBlock, createBlock as _createBlock } from \\"vue\\"
 
       export function render(_ctx, _cache) {
         return (_openBlock(), _createBlock(\\"img\\"))
@@ -717,7 +722,7 @@ describe("vimNodeTransform without transformAssetUrl", () => {
     );
 
     expect(result.code).toMatchInlineSnapshot(`
-      "import { createVNode as _createVNode, openBlock as _openBlock, createBlock as _createBlock } from \\"vue\\"
+      "import { openBlock as _openBlock, createBlock as _createBlock } from \\"vue\\"
 
       export function render(_ctx, _cache) {
         return (_openBlock(), _createBlock(\\"image\\", {
@@ -748,7 +753,7 @@ describe("vimNodeTransform without transformAssetUrl", () => {
         }
       );
       expect(result.code).toMatchInlineSnapshot(`
-        "import { createVNode as _createVNode, openBlock as _openBlock, createBlock as _createBlock } from \\"vue\\"
+        "import { openBlock as _openBlock, createBlock as _createBlock } from \\"vue\\"
         import _imports_0 from '-!webpack-image-resize-loader?{\\"format\\":\\"png\\",\\"quality\\":100}!./logo.png'
 
 
@@ -770,7 +775,7 @@ describe("vimNodeTransform without transformAssetUrl", () => {
       );
 
       expect(result.code).toMatchInlineSnapshot(`
-        "import { createVNode as _createVNode, openBlock as _openBlock, createBlock as _createBlock } from \\"vue\\"
+        "import { openBlock as _openBlock, createBlock as _createBlock } from \\"vue\\"
         import _imports_0 from '-!webpack-image-resize-loader?{\\"format\\":\\"png\\",\\"quality\\":100}!./logo.png'
         import _imports_1 from '-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"format\\":\\"png\\",\\"quality\\":100}!./logo.png'
 
@@ -795,22 +800,22 @@ describe("vimNodeTransform without transformAssetUrl", () => {
 
       expect(result.code).toMatchInlineSnapshot(`
         "import { createVNode as _createVNode, openBlock as _openBlock, createBlock as _createBlock } from \\"vue\\"
-        import _imports_0 from '-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"format\\":\\"webp\\",\\"quality\\":80}!./logo.png'
-        import _imports_1 from '-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"quality\\":100}!./logo.png'
-        import _imports_2 from '-!webpack-image-resize-loader?{\\"format\\":\\"png\\",\\"quality\\":100}!./logo.png'
+        import _imports_0 from '-!webpack-image-resize-loader?{\\"format\\":\\"png\\",\\"quality\\":100}!./logo.png'
+        import _imports_1 from '-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"format\\":\\"webp\\",\\"quality\\":80}!./logo.png'
+        import _imports_2 from '-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"quality\\":100}!./logo.png'
 
 
         export function render(_ctx, _cache) {
           return (_openBlock(), _createBlock(\\"picture\\", null, [
             _createVNode(\\"source\\", {
               type: \\"image/webp\\",
-              srcset: _imports_0
+              srcset: _imports_1
             }),
             _createVNode(\\"source\\", {
               type: \\"image/png\\",
-              srcset: _imports_1
+              srcset: _imports_2
             }),
-            _createVNode(\\"img\\", { src: _imports_2 })
+            _createVNode(\\"img\\", { src: _imports_0 })
           ]))
         }"
       `);
@@ -836,7 +841,7 @@ describe("vimNodeTransform without transformAssetUrl", () => {
       );
 
       expect(result.code).toMatchInlineSnapshot(`
-        "import { createVNode as _createVNode, openBlock as _openBlock, createBlock as _createBlock } from \\"vue\\"
+        "import { openBlock as _openBlock, createBlock as _createBlock } from \\"vue\\"
         import _imports_0 from '-!webpack-image-resize-loader?{\\"format\\":\\"png\\",\\"quality\\":100}!./logo.png'
 
 
@@ -853,7 +858,7 @@ describe("vimNodeTransform without transformAssetUrl", () => {
       );
 
       expect(result.code).toMatchInlineSnapshot(`
-        "import { createVNode as _createVNode, openBlock as _openBlock, createBlock as _createBlock } from \\"vue\\"
+        "import { openBlock as _openBlock, createBlock as _createBlock } from \\"vue\\"
         import _imports_0 from '-!webpack-image-resize-loader?{\\"format\\":\\"png\\",\\"quality\\":100}!./logo.png'
         import _imports_1 from '-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"format\\":\\"png\\",\\"quality\\":100}!./logo.png'
 
@@ -891,19 +896,19 @@ describe("vimNodeTransform without transformAssetUrl", () => {
 
       expect(result.code).toMatchInlineSnapshot(`
         "import { createVNode as _createVNode, openBlock as _openBlock, createBlock as _createBlock } from \\"vue\\"
-        import _imports_0 from '-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"quality\\":100}!./logo.png'
-        import _imports_1 from '-!webpack-image-resize-loader?{\\"format\\":\\"png\\",\\"quality\\":100}!./logo.png'
+        import _imports_0 from '-!webpack-image-resize-loader?{\\"format\\":\\"png\\",\\"quality\\":100}!./logo.png'
+        import _imports_1 from '-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"quality\\":100}!./logo.png'
 
 
         export function render(_ctx, _cache) {
           return (_openBlock(), _createBlock(\\"picture\\", null, [
             _createVNode(\\"source\\", {
               type: \\"image/png\\",
-              srcset: _imports_0
+              srcset: _imports_1
             }),
             _createVNode(\\"img\\", {
-              src: _imports_1,
-              loading: \\"lazy\\"
+              loading: \\"lazy\\",
+              src: _imports_0
             })
           ]))
         }"
@@ -920,24 +925,24 @@ describe("vimNodeTransform without transformAssetUrl", () => {
 
       expect(result.code).toMatchInlineSnapshot(`
         "import { createVNode as _createVNode, openBlock as _openBlock, createBlock as _createBlock } from \\"vue\\"
-        import _imports_0 from '-!webpack-image-srcset-loader?{\\"sizes\\":[\\"original\\"]}!webpack-image-resize-loader?{\\"format\\":\\"webp\\",\\"quality\\":80}!./logo.png'
-        import _imports_1 from '-!webpack-image-srcset-loader?{\\"sizes\\":[\\"original\\"]}!webpack-image-resize-loader?{\\"quality\\":100}!./logo.png'
-        import _imports_2 from '-!webpack-image-resize-loader?{\\"format\\":\\"png\\",\\"quality\\":100}!./logo.png'
+        import _imports_0 from '-!webpack-image-resize-loader?{\\"format\\":\\"png\\",\\"quality\\":100}!./logo.png'
+        import _imports_1 from '-!webpack-image-srcset-loader?{\\"sizes\\":[\\"original\\"]}!webpack-image-resize-loader?{\\"format\\":\\"webp\\",\\"quality\\":80}!./logo.png'
+        import _imports_2 from '-!webpack-image-srcset-loader?{\\"sizes\\":[\\"original\\"]}!webpack-image-resize-loader?{\\"quality\\":100}!./logo.png'
 
 
         export function render(_ctx, _cache) {
           return (_openBlock(), _createBlock(\\"picture\\", null, [
             _createVNode(\\"source\\", {
               type: \\"image/webp\\",
-              srcset: _imports_0
+              srcset: _imports_1
             }),
             _createVNode(\\"source\\", {
               type: \\"image/png\\",
-              srcset: _imports_1
+              srcset: _imports_2
             }),
             _createVNode(\\"img\\", {
-              src: _imports_2,
-              loading: \\"lazy\\"
+              loading: \\"lazy\\",
+              src: _imports_0
             })
           ]))
         }"
@@ -958,24 +963,24 @@ describe("vimNodeTransform without transformAssetUrl", () => {
 
       expect(result.code).toMatchInlineSnapshot(`
         "import { createVNode as _createVNode, openBlock as _openBlock, createBlock as _createBlock } from \\"vue\\"
-        import _imports_0 from '-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"format\\":\\"webp\\",\\"quality\\":50}!./logo.png'
-        import _imports_1 from '-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"quality\\":50}!./logo.png'
-        import _imports_2 from '-!webpack-image-resize-loader?{\\"format\\":\\"png\\",\\"quality\\":50}!./logo.png'
+        import _imports_0 from '-!webpack-image-resize-loader?{\\"format\\":\\"png\\",\\"quality\\":50}!./logo.png'
+        import _imports_1 from '-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"format\\":\\"webp\\",\\"quality\\":50}!./logo.png'
+        import _imports_2 from '-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"quality\\":50}!./logo.png'
 
 
         export function render(_ctx, _cache) {
           return (_openBlock(), _createBlock(\\"picture\\", null, [
             _createVNode(\\"source\\", {
               type: \\"image/webp\\",
-              srcset: _imports_0
+              srcset: _imports_1
             }),
             _createVNode(\\"source\\", {
               type: \\"image/png\\",
-              srcset: _imports_1
+              srcset: _imports_2
             }),
             _createVNode(\\"img\\", {
-              src: _imports_2,
-              loading: \\"lazy\\"
+              loading: \\"lazy\\",
+              src: _imports_0
             })
           ]))
         }"
@@ -992,24 +997,24 @@ describe("vimNodeTransform without transformAssetUrl", () => {
 
       expect(result.code).toMatchInlineSnapshot(`
         "import { createVNode as _createVNode, openBlock as _openBlock, createBlock as _createBlock } from \\"vue\\"
-        import _imports_0 from '-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"format\\":\\"webp\\",\\"quality\\":80}!./logo.png'
-        import _imports_1 from '-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"quality\\":100}!./logo.png'
-        import _imports_2 from 'test'
+        import _imports_0 from 'test'
+        import _imports_1 from '-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"format\\":\\"webp\\",\\"quality\\":80}!./logo.png'
+        import _imports_2 from '-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"quality\\":100}!./logo.png'
 
 
         export function render(_ctx, _cache) {
           return (_openBlock(), _createBlock(\\"picture\\", null, [
             _createVNode(\\"source\\", {
               type: \\"image/webp\\",
-              srcset: _imports_0
+              srcset: _imports_1
             }),
             _createVNode(\\"source\\", {
               type: \\"image/png\\",
-              srcset: _imports_1
+              srcset: _imports_2
             }),
             _createVNode(\\"img\\", {
-              src: _imports_2,
-              loading: \\"lazy\\"
+              loading: \\"lazy\\",
+              src: _imports_0
             })
           ]))
         }"
@@ -1026,23 +1031,23 @@ describe("vimNodeTransform without transformAssetUrl", () => {
 
       expect(result.code).toMatchInlineSnapshot(`
         "import { createVNode as _createVNode, openBlock as _openBlock, createBlock as _createBlock } from \\"vue\\"
-        import _imports_0 from 'test'
-        import _imports_1 from '-!webpack-image-resize-loader?{\\"format\\":\\"png\\",\\"quality\\":100}!./logo.png'
+        import _imports_0 from '-!webpack-image-resize-loader?{\\"format\\":\\"png\\",\\"quality\\":100}!./logo.png'
+        import _imports_1 from 'test'
 
 
         export function render(_ctx, _cache) {
           return (_openBlock(), _createBlock(\\"picture\\", null, [
             _createVNode(\\"source\\", {
               type: \\"image/webp\\",
-              srcset: _imports_0
+              srcset: _imports_1
             }),
             _createVNode(\\"source\\", {
               type: \\"image/png\\",
-              srcset: _imports_0
+              srcset: _imports_1
             }),
             _createVNode(\\"img\\", {
-              src: _imports_1,
-              loading: \\"lazy\\"
+              loading: \\"lazy\\",
+              src: _imports_0
             })
           ]))
         }"
