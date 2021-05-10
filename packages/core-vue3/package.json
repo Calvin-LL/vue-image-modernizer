@@ -29,7 +29,7 @@
   "dependencies": {
     "@vue-image-modernizer/core-shared": "^1.0.2",
     "@vue/compiler-core": "^3.0.5",
-    "mime": "^2.5.0"
+    "mime": "^2.5.2"
   },
   "devDependencies": {
     "@types/jest": "^26.0.20",

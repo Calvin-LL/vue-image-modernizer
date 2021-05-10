@@ -42,7 +42,7 @@
     "@vue-image-modernizer/core-shared": "^1.0.2",
     "@vue-image-modernizer/core-vue2": "^1.0.2",
     "@vue-image-modernizer/core-vue3": "^1.0.2",
-    "mime": "^2.5.0"
+    "mime": "^2.5.2"
   },
   "devDependencies": {
     "@types/mime": "^2.0.3",

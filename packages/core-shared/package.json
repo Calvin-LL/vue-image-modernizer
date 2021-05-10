@@ -27,7 +27,7 @@
   "bugs": "https://github.com/Calvin-LL/vue-image-modernizer/issues",
   "homepage": "https://github.com/Calvin-LL/vue-image-modernizer",
   "dependencies": {
-    "mime": "^2.5.0"
+    "mime": "^2.5.2"
   },
   "devDependencies": {
     "@types/jest": "^26.0.20",
