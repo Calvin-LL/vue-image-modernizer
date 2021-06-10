@@ -38,6 +38,13 @@ const optionStringResultPair = [
       imageFormats: ["webp", "original"],
     },
   ],
+  [
+    'sizes=["480w", "1024w", "1920w", "2560w", "original"] imageFormats = ["webp", "avif", "original"]',
+    {
+      sizes: ["480w", "1024w", "1920w", "2560w", "original"],
+      imageFormats: ["webp", "avif", "original"],
+    },
+  ],
 ] as const;
 
 optionStringResultPair.forEach(([optionString, result]) => {
