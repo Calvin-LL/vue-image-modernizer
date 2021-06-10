@@ -59,6 +59,8 @@ export function transform(
   const srcAttrRaw = node.attrsList.find((attr) => attr.name === "src");
   const srcAttr = node.attrs.find((attr) => attr.name === "src");
 
+  const sizesAttrRaw = node.attrs.find((attr) => attr.name === "sizes");
+
   if (srcAttrRaw === undefined) throw new Error("src attribute not found");
 
   if (srcAttrRaw.value.length === 0)
@@ -81,13 +83,14 @@ export function transform(
   removeAttr(node as ASTElementWithAttr, combinedOptions.attributeName);
 
   if (!combinedOptions.compressOnly && !combinedOptions.onlyUseImg)
-    transformIntoPicture(node, directiveAttrRaw, srcAttrRaw, combinedOptions);
+    transformIntoPicture(node, directiveAttrRaw, srcAttrRaw, sizesAttrRaw, combinedOptions);
 }
 
 function transformIntoPicture(
   node: ASTElement,
   directiveAttrRaw: ATTR,
   srcAttrRaw: ATTR,
+  sizesAttrRaw: ATTR | undefined,
   options: Required<VIMOptions>
 ): void {
   const pictureNode: ASTElement = {
@@ -131,6 +134,7 @@ function transformIntoPicture(
       genSourceElement(
         pictureNode,
         srcAttrRaw,
+        sizesAttrRaw,
         directiveAttrRaw,
         options,
         mimeType
@@ -165,6 +169,7 @@ function replaceObjectContent(
 function genSourceElement(
   parent: ASTElement,
   srcAttrRaw: ATTR,
+  sizesAttrRaw: ATTR | undefined,
   directiveAttrRaw: ATTR,
   options: Required<VIMOptions>,
   format: keyof typeof IMAGE_FORMATS
@@ -193,6 +198,7 @@ function genSourceElement(
   });
 
   addSrcSetAttr(sourceElement, srcAttrRaw, options, format);
+  addSizesAttr(sourceElement, sizesAttrRaw)
 
   return sourceElement;
 }
@@ -226,6 +232,20 @@ function addSrcSetAttr(
     ...srcAttrRaw,
     name: "srcset",
     value: getSrcSetValue(srcAttrRaw.value, options, format),
+    // @ts-expect-error vue's typing error
+    dynamic: undefined,
+  });
+}
+
+function addSizesAttr(
+  node: ASTElementWithAttr,
+  sizesAttrRaw: ATTR | undefined,
+): void {
+  if(!sizesAttrRaw) return void 0
+
+  node.attrs.push({
+    name: "sizes",
+    value: sizesAttrRaw.value,
     // @ts-expect-error vue's typing error
     dynamic: undefined,
   });
