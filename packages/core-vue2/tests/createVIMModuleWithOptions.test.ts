@@ -353,12 +353,13 @@ describe("options", () => {
     `);
   });
 
-  it("should transform with quality: { jpeg: 50, webp: 50, png: 50 }", () => {
+  it("should transform with quality: { jpeg: 50, webp: 50, png: 50, avif: 50 }", () => {
     const result = compileWithVIMModule(`<img src="./logo.png" modernize/>`, {
       quality: {
         jpeg: 50,
         webp: 50,
         png: 50,
+        avif: 50,
       },
     });
 

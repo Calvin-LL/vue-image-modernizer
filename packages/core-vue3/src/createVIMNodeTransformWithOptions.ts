@@ -231,6 +231,8 @@ function transformElementIntoPicture(transformOptions: {
     context
   );
 
+  const sizesNodeAttr = node.props.find(p => p.name === 'sizes')
+
   const srcDirectiveNode = createSrcDirectiveNode(
     compressedSrcExp,
     srcProp.loc
@@ -321,6 +323,8 @@ function transformElementIntoPicture(transformOptions: {
       codegenNode: undefined,
       vimDirectiveNode: createSrcSetDirectiveNode(srcSetExp, srcProp.loc),
     };
+
+    if(sizesNodeAttr) sourceNode.props.push(sizesNodeAttr)
 
     sourceNodes.push(sourceNode);
   });

@@ -432,7 +432,7 @@ describe("vimNodeTransform", () => {
       `);
     });
 
-    it("should transform with quality: { jpeg: 50, webp: 50, png: 50 }", () => {
+    it("should transform with quality: { jpeg: 50, webp: 50, png: 50, avif: 50 }", () => {
       const result = compileWithVIMNodeTransform(
         `<img src="./logo.png" modernize/>`,
         {
@@ -440,6 +440,7 @@ describe("vimNodeTransform", () => {
             jpeg: 50,
             webp: 50,
             png: 50,
+            avif: 50,
           },
         }
       );
