@@ -1,6 +1,6 @@
 {
   "name": "@vue-image-modernizer/core-vue2",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "@vue-image-modernizer/core-vue2",
   "publishConfig": {
     "access": "public"
@@ -27,7 +27,7 @@
   "bugs": "https://github.com/Calvin-LL/vue-image-modernizer/issues",
   "homepage": "https://github.com/Calvin-LL/vue-image-modernizer",
   "dependencies": {
-    "@vue-image-modernizer/core-shared": "^1.0.2",
+    "@vue-image-modernizer/core-shared": "^1.1.0",
     "mime": "^2.5.0"
   },
   "devDependencies": {
