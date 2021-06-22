@@ -76,6 +76,80 @@ it("should transform src", () => {
   `);
 });
 
+it("should pass `media` attribute to source elements", () => {
+  const result = compileWithVIMModule(
+    `<img src="./logo.png" media="(min-width: 800px)" modernize/>`
+  );
+
+  expect(result.formattedLongestRender).toMatchInlineSnapshot(`
+    "with (this) {
+      return _c(\\"picture\\", {}, [
+        _c(\\"source\\", {
+          attrs: {
+            type: \\"image/webp\\",
+            media: \\"(min-width: 800px)\\",
+            srcset: require('-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"format\\":\\"webp\\",\\"quality\\":80}!./logo.png')
+              .default,
+          },
+        }),
+        _c(\\"source\\", {
+          attrs: {
+            type: \\"image/png\\",
+            media: \\"(min-width: 800px)\\",
+            srcset: require('-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"quality\\":100}!./logo.png')
+              .default,
+          },
+        }),
+        _c(\\"img\\", {
+          attrs: {
+            src: require('-!webpack-image-resize-loader?{\\"format\\":\\"png\\",\\"quality\\":100}!./logo.png'),
+            media: \\"(min-width: 800px)\\",
+            loading: \\"lazy\\",
+          },
+        }),
+      ]);
+    }
+    "
+  `);
+});
+
+it("should pass `sizes` attribute to source elements", () => {
+  const result = compileWithVIMModule(
+    `<img src="./logo.png" sizes="(min-width: 36em) 33.3vw, 100vw" modernize/>`
+  );
+
+  expect(result.formattedLongestRender).toMatchInlineSnapshot(`
+    "with (this) {
+      return _c(\\"picture\\", {}, [
+        _c(\\"source\\", {
+          attrs: {
+            type: \\"image/webp\\",
+            sizes: \\"(min-width: 36em) 33.3vw, 100vw\\",
+            srcset: require('-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"format\\":\\"webp\\",\\"quality\\":80}!./logo.png')
+              .default,
+          },
+        }),
+        _c(\\"source\\", {
+          attrs: {
+            type: \\"image/png\\",
+            sizes: \\"(min-width: 36em) 33.3vw, 100vw\\",
+            srcset: require('-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"quality\\":100}!./logo.png')
+              .default,
+          },
+        }),
+        _c(\\"img\\", {
+          attrs: {
+            src: require('-!webpack-image-resize-loader?{\\"format\\":\\"png\\",\\"quality\\":100}!./logo.png'),
+            sizes: \\"(min-width: 36em) 33.3vw, 100vw\\",
+            loading: \\"lazy\\",
+          },
+        }),
+      ]);
+    }
+    "
+  `);
+});
+
 it("should keep loading value if one exists", () => {
   const result = compileWithVIMModule(
     `<img src="./logo.png" loading="auto" modernize/>`
@@ -353,12 +427,13 @@ describe("options", () => {
     `);
   });
 
-  it("should transform with quality: { jpeg: 50, webp: 50, png: 50 }", () => {
+  it("should transform with quality: { jpeg: 50, webp: 50, png: 50, avif: 50 }", () => {
     const result = compileWithVIMModule(`<img src="./logo.png" modernize/>`, {
       quality: {
         jpeg: 50,
         webp: 50,
         png: 50,
+        avif: 50,
       },
     });
 

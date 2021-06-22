@@ -50,11 +50,6 @@ describe("vimNodeTransform", () => {
   it("should transform src", () => {
     const result = compileWithVIMNodeTransform(
       `<img src="./logo.png" modernize/>`
-      // ` <picture>
-      //     <source type="image/webp" :srcset="require('test1')">
-      //     <img src="./test2.png">
-      //   </picture>`
-      // '<img src="./test2.png">'
     );
 
     expect(result.code).toMatchInlineSnapshot(`
@@ -73,6 +68,82 @@ describe("vimNodeTransform", () => {
         srcset: _imports_2
       }, null, -1 /* HOISTED */)
       const _hoisted_3 = /*#__PURE__*/_createVNode(\\"img\\", {
+        loading: \\"lazy\\",
+        src: _imports_0
+      }, null, -1 /* HOISTED */)
+
+      export function render(_ctx, _cache) {
+        return (_openBlock(), _createBlock(\\"picture\\", null, [
+          _hoisted_1,
+          _hoisted_2,
+          _hoisted_3
+        ]))
+      }"
+    `);
+  });
+
+  it("should pass `media` attribute to source elements", () => {
+    const result = compileWithVIMNodeTransform(
+      `<img src="./logo.png" media="(min-width: 800px)" modernize/>`
+    );
+
+    expect(result.code).toMatchInlineSnapshot(`
+      "import { createVNode as _createVNode, openBlock as _openBlock, createBlock as _createBlock } from \\"vue\\"
+      import _imports_0 from '-!webpack-image-resize-loader?{\\"format\\":\\"png\\",\\"quality\\":100}!./logo.png'
+      import _imports_1 from '-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"format\\":\\"webp\\",\\"quality\\":80}!./logo.png'
+      import _imports_2 from '-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"quality\\":100}!./logo.png'
+
+
+      const _hoisted_1 = /*#__PURE__*/_createVNode(\\"source\\", {
+        type: \\"image/webp\\",
+        media: \\"(min-width: 800px)\\",
+        srcset: _imports_1
+      }, null, -1 /* HOISTED */)
+      const _hoisted_2 = /*#__PURE__*/_createVNode(\\"source\\", {
+        type: \\"image/png\\",
+        media: \\"(min-width: 800px)\\",
+        srcset: _imports_2
+      }, null, -1 /* HOISTED */)
+      const _hoisted_3 = /*#__PURE__*/_createVNode(\\"img\\", {
+        media: \\"(min-width: 800px)\\",
+        loading: \\"lazy\\",
+        src: _imports_0
+      }, null, -1 /* HOISTED */)
+
+      export function render(_ctx, _cache) {
+        return (_openBlock(), _createBlock(\\"picture\\", null, [
+          _hoisted_1,
+          _hoisted_2,
+          _hoisted_3
+        ]))
+      }"
+    `);
+  });
+
+  it("should pass `sizes` attribute to source elements", () => {
+    const result = compileWithVIMNodeTransform(
+      `<img src="./logo.png" sizes="(min-width: 36em) 33.3vw, 100vw" modernize/>`
+    );
+
+    expect(result.code).toMatchInlineSnapshot(`
+      "import { createVNode as _createVNode, openBlock as _openBlock, createBlock as _createBlock } from \\"vue\\"
+      import _imports_0 from '-!webpack-image-resize-loader?{\\"format\\":\\"png\\",\\"quality\\":100}!./logo.png'
+      import _imports_1 from '-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"format\\":\\"webp\\",\\"quality\\":80}!./logo.png'
+      import _imports_2 from '-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"quality\\":100}!./logo.png'
+
+
+      const _hoisted_1 = /*#__PURE__*/_createVNode(\\"source\\", {
+        type: \\"image/webp\\",
+        sizes: \\"(min-width: 36em) 33.3vw, 100vw\\",
+        srcset: _imports_1
+      }, null, -1 /* HOISTED */)
+      const _hoisted_2 = /*#__PURE__*/_createVNode(\\"source\\", {
+        type: \\"image/png\\",
+        sizes: \\"(min-width: 36em) 33.3vw, 100vw\\",
+        srcset: _imports_2
+      }, null, -1 /* HOISTED */)
+      const _hoisted_3 = /*#__PURE__*/_createVNode(\\"img\\", {
+        sizes: \\"(min-width: 36em) 33.3vw, 100vw\\",
         loading: \\"lazy\\",
         src: _imports_0
       }, null, -1 /* HOISTED */)
@@ -432,7 +503,7 @@ describe("vimNodeTransform", () => {
       `);
     });
 
-    it("should transform with quality: { jpeg: 50, webp: 50, png: 50 }", () => {
+    it("should transform with quality: { jpeg: 50, webp: 50, png: 50, avif: 50 }", () => {
       const result = compileWithVIMNodeTransform(
         `<img src="./logo.png" modernize/>`,
         {
@@ -440,6 +511,7 @@ describe("vimNodeTransform", () => {
             jpeg: 50,
             webp: 50,
             png: 50,
+            avif: 50,
           },
         }
       );
@@ -949,7 +1021,7 @@ describe("vimNodeTransform without transformAssetUrl", () => {
       `);
     });
 
-    it("should transform with quality: { jpeg: 50, webp: 50, png: 50 }", () => {
+    it("should transform with quality: { jpeg: 50, webp: 50, png: 50, avif: 50 }", () => {
       const result = compileWithVIMNodeTransformWithoutTransformAssetUrl(
         `<img src="./logo.png" modernize/>`,
         {
@@ -957,6 +1029,7 @@ describe("vimNodeTransform without transformAssetUrl", () => {
             jpeg: 50,
             webp: 50,
             png: 50,
+            avif: 50,
           },
         }
       );

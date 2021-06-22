@@ -81,12 +81,12 @@ function matchArrayWithKey(
   s: string,
   key: string
 ): ReturnType<typeof String.prototype.match> {
-  return s.match(new RegExp(`${key}\\s*=\\s*(\\[.*\\])`, "i"));
+  return s.match(new RegExp(`${key}\\s*=\\s*(\\[.*?\\])`, "i"));
 }
 
 function matchObjectWithKey(
   s: string,
   key: string
 ): ReturnType<typeof String.prototype.match> {
-  return s.match(new RegExp(`${key}\\s*=\\s*(\\{.*\\})`, "i"));
+  return s.match(new RegExp(`${key}\\s*=\\s*(\\{.*?\\})`, "i"));
 }

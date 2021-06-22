@@ -231,6 +231,12 @@ function transformElementIntoPicture(transformOptions: {
     context
   );
 
+  // https://developer.mozilla.org/en-US/docs/Web/HTML/Element/source#attributes
+  // both sizes and media attributes should be passed to source elements
+  // not sure how media is going to be used this way though
+  const sizesNodeAttr = node.props.find((p) => p.name === "sizes");
+  const mediaNodeAttr = node.props.find((p) => p.name === "media");
+
   const srcDirectiveNode = createSrcDirectiveNode(
     compressedSrcExp,
     srcProp.loc
@@ -321,6 +327,9 @@ function transformElementIntoPicture(transformOptions: {
       codegenNode: undefined,
       vimDirectiveNode: createSrcSetDirectiveNode(srcSetExp, srcProp.loc),
     };
+
+    if (sizesNodeAttr) sourceNode.props.push(sizesNodeAttr);
+    if (mediaNodeAttr) sourceNode.props.push(mediaNodeAttr);
 
     sourceNodes.push(sourceNode);
   });

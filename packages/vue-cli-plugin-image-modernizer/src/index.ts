@@ -118,9 +118,19 @@ export default function (
       .rule("images")
       .use("url-loader")
       .get("loader");
+
+    const builtInImageLoaderEscaped = builtInImageLoader
+      .replace(/\\/g, "\\\\")
+      .replace(/!/g, "\\x21");
+
     const builtInImageLoaderOptionsString = JSON.stringify(
       config.module.rule("images").use("url-loader").get("options")
     );
+
+    const builtInImageLoaderOptionsStringEscaped = builtInImageLoaderOptionsString
+      .replace(/\\/g, "\\\\")
+      .replace(/!/g, "\\x21");
+
     const fileLoaderOptionsGenerator = `(options, existingOptions) => ({
       ...existingOptions,
       mimetype: require(\`mime\`).getType(options.format),
@@ -152,7 +162,7 @@ export default function (
       };
       const resizeLoaderOptionsString = JSON.stringify(resizeLoaderOptions);
 
-      return `-!${builtInImageLoader}?${builtInImageLoaderOptionsString}!webpack-image-resize-loader?${resizeLoaderOptionsString}!${path}`;
+      return `-!${builtInImageLoaderEscaped}?${builtInImageLoaderOptionsStringEscaped}!webpack-image-resize-loader?${resizeLoaderOptionsString}!${path}`;
     }
 
     function srcSetFilePathTransformer(
@@ -181,7 +191,7 @@ export default function (
       };
       const srcsetLoaderOptionsString = JSON.stringify(srcsetLoaderOptions);
 
-      return `-!webpack-image-srcset-loader?${srcsetLoaderOptionsString}!${builtInImageLoader}?${builtInImageLoaderOptionsString}!webpack-image-resize-loader?${resizeLoaderOptionsString}!${path}`;
+      return `-!webpack-image-srcset-loader?${srcsetLoaderOptionsString}!${builtInImageLoaderEscaped}?${builtInImageLoaderOptionsStringEscaped}!webpack-image-resize-loader?${resizeLoaderOptionsString}!${path}`;
     }
 
     const vimOptions = {

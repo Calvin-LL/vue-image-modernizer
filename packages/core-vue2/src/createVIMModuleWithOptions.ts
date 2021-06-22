@@ -58,6 +58,11 @@ export function transform(
 
   const srcAttrRaw = node.attrsList.find((attr) => attr.name === "src");
   const srcAttr = node.attrs.find((attr) => attr.name === "src");
+  // https://developer.mozilla.org/en-US/docs/Web/HTML/Element/source#attributes
+  // both sizes and media attributes should be passed to source elements
+  // not sure how media is going to be used this way though
+  const sizesAttr = node.attrs.find((attr) => attr.name === "sizes");
+  const mediaAttr = node.attrs.find((attr) => attr.name === "media");
 
   if (srcAttrRaw === undefined) throw new Error("src attribute not found");
 
@@ -81,13 +86,22 @@ export function transform(
   removeAttr(node as ASTElementWithAttr, combinedOptions.attributeName);
 
   if (!combinedOptions.compressOnly && !combinedOptions.onlyUseImg)
-    transformIntoPicture(node, directiveAttrRaw, srcAttrRaw, combinedOptions);
+    transformIntoPicture(
+      node,
+      directiveAttrRaw,
+      srcAttrRaw,
+      sizesAttr,
+      mediaAttr,
+      combinedOptions
+    );
 }
 
 function transformIntoPicture(
   node: ASTElement,
   directiveAttrRaw: ATTR,
   srcAttrRaw: ATTR,
+  sizesAttr: ATTR | undefined,
+  mediaAttr: ATTR | undefined,
   options: Required<VIMOptions>
 ): void {
   const pictureNode: ASTElement = {
@@ -131,6 +145,8 @@ function transformIntoPicture(
       genSourceElement(
         pictureNode,
         srcAttrRaw,
+        sizesAttr,
+        mediaAttr,
         directiveAttrRaw,
         options,
         mimeType
@@ -165,6 +181,8 @@ function replaceObjectContent(
 function genSourceElement(
   parent: ASTElement,
   srcAttrRaw: ATTR,
+  sizesAttr: ATTR | undefined,
+  mediaAttr: ATTR | undefined,
   directiveAttrRaw: ATTR,
   options: Required<VIMOptions>,
   format: keyof typeof IMAGE_FORMATS
@@ -191,6 +209,20 @@ function genSourceElement(
     // @ts-expect-error vue's typing error
     dynamic: undefined,
   });
+
+  // copy sizes attr to source
+  if (sizesAttr) {
+    sourceElement.attrs!.push({
+      ...sizesAttr,
+    });
+  }
+
+  // copy media attr to source
+  if (mediaAttr) {
+    sourceElement.attrs!.push({
+      ...mediaAttr,
+    });
+  }
 
   addSrcSetAttr(sourceElement, srcAttrRaw, options, format);
 

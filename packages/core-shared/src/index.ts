@@ -10,6 +10,7 @@ export const IMAGE_FORMATS = {
   "image/jpeg": "jpeg",
   "image/png": "png",
   "image/webp": "webp",
+  "image/avif": "avif",
 } as const;
 
 export interface VIMOptions {
@@ -70,6 +71,7 @@ export const defaultVIMOptions: Required<VIMOptions> = {
     jpeg: 80,
     webp: 80,
     png: 100,
+    avif: 50,
   },
   compressFilePathTransformer: compressWebpack,
   srcSetFilePathTransformer: srcSetWebpack,
