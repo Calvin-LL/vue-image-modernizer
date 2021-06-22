@@ -48,32 +48,34 @@ it("should transform src", () => {
   const result = compileWithVIMModule(`<img src="./logo.png" modernize/>`);
 
   expect(result.formattedLongestRender).toMatchInlineSnapshot(`
-    "with (this) {
-      return _c(\\"picture\\", {}, [
-        _c(\\"source\\", {
-          attrs: {
-            type: \\"image/webp\\",
-            srcset: require('-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"format\\":\\"webp\\",\\"quality\\":80}!./logo.png')
-              .default,
-          },
-        }),
-        _c(\\"source\\", {
-          attrs: {
-            type: \\"image/png\\",
-            srcset: require('-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"quality\\":100}!./logo.png')
-              .default,
-          },
-        }),
-        _c(\\"img\\", {
-          attrs: {
-            src: require('-!webpack-image-resize-loader?{\\"format\\":\\"png\\",\\"quality\\":100}!./logo.png'),
-            loading: \\"lazy\\",
-          },
-        }),
-      ]);
-    }
-    "
-  `);
+"with (this) {
+  return _c(\\"picture\\", {}, [
+    _c(\\"source\\", {
+      attrs: {
+        type: \\"image/webp\\",
+        srcset:
+          require('-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"format\\":\\"webp\\",\\"quality\\":80}!./logo.png')
+            .default,
+      },
+    }),
+    _c(\\"source\\", {
+      attrs: {
+        type: \\"image/png\\",
+        srcset:
+          require('-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"quality\\":100}!./logo.png')
+            .default,
+      },
+    }),
+    _c(\\"img\\", {
+      attrs: {
+        src: require('-!webpack-image-resize-loader?{\\"format\\":\\"png\\",\\"quality\\":100}!./logo.png'),
+        loading: \\"lazy\\",
+      },
+    }),
+  ]);
+}
+"
+`);
 });
 
 it("should pass `media` attribute to source elements", () => {
@@ -82,35 +84,37 @@ it("should pass `media` attribute to source elements", () => {
   );
 
   expect(result.formattedLongestRender).toMatchInlineSnapshot(`
-    "with (this) {
-      return _c(\\"picture\\", {}, [
-        _c(\\"source\\", {
-          attrs: {
-            type: \\"image/webp\\",
-            media: \\"(min-width: 800px)\\",
-            srcset: require('-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"format\\":\\"webp\\",\\"quality\\":80}!./logo.png')
-              .default,
-          },
-        }),
-        _c(\\"source\\", {
-          attrs: {
-            type: \\"image/png\\",
-            media: \\"(min-width: 800px)\\",
-            srcset: require('-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"quality\\":100}!./logo.png')
-              .default,
-          },
-        }),
-        _c(\\"img\\", {
-          attrs: {
-            src: require('-!webpack-image-resize-loader?{\\"format\\":\\"png\\",\\"quality\\":100}!./logo.png'),
-            media: \\"(min-width: 800px)\\",
-            loading: \\"lazy\\",
-          },
-        }),
-      ]);
-    }
-    "
-  `);
+"with (this) {
+  return _c(\\"picture\\", {}, [
+    _c(\\"source\\", {
+      attrs: {
+        type: \\"image/webp\\",
+        media: \\"(min-width: 800px)\\",
+        srcset:
+          require('-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"format\\":\\"webp\\",\\"quality\\":80}!./logo.png')
+            .default,
+      },
+    }),
+    _c(\\"source\\", {
+      attrs: {
+        type: \\"image/png\\",
+        media: \\"(min-width: 800px)\\",
+        srcset:
+          require('-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"quality\\":100}!./logo.png')
+            .default,
+      },
+    }),
+    _c(\\"img\\", {
+      attrs: {
+        src: require('-!webpack-image-resize-loader?{\\"format\\":\\"png\\",\\"quality\\":100}!./logo.png'),
+        media: \\"(min-width: 800px)\\",
+        loading: \\"lazy\\",
+      },
+    }),
+  ]);
+}
+"
+`);
 });
 
 it("should pass `sizes` attribute to source elements", () => {
@@ -119,35 +123,37 @@ it("should pass `sizes` attribute to source elements", () => {
   );
 
   expect(result.formattedLongestRender).toMatchInlineSnapshot(`
-    "with (this) {
-      return _c(\\"picture\\", {}, [
-        _c(\\"source\\", {
-          attrs: {
-            type: \\"image/webp\\",
-            sizes: \\"(min-width: 36em) 33.3vw, 100vw\\",
-            srcset: require('-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"format\\":\\"webp\\",\\"quality\\":80}!./logo.png')
-              .default,
-          },
-        }),
-        _c(\\"source\\", {
-          attrs: {
-            type: \\"image/png\\",
-            sizes: \\"(min-width: 36em) 33.3vw, 100vw\\",
-            srcset: require('-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"quality\\":100}!./logo.png')
-              .default,
-          },
-        }),
-        _c(\\"img\\", {
-          attrs: {
-            src: require('-!webpack-image-resize-loader?{\\"format\\":\\"png\\",\\"quality\\":100}!./logo.png'),
-            sizes: \\"(min-width: 36em) 33.3vw, 100vw\\",
-            loading: \\"lazy\\",
-          },
-        }),
-      ]);
-    }
-    "
-  `);
+"with (this) {
+  return _c(\\"picture\\", {}, [
+    _c(\\"source\\", {
+      attrs: {
+        type: \\"image/webp\\",
+        sizes: \\"(min-width: 36em) 33.3vw, 100vw\\",
+        srcset:
+          require('-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"format\\":\\"webp\\",\\"quality\\":80}!./logo.png')
+            .default,
+      },
+    }),
+    _c(\\"source\\", {
+      attrs: {
+        type: \\"image/png\\",
+        sizes: \\"(min-width: 36em) 33.3vw, 100vw\\",
+        srcset:
+          require('-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"quality\\":100}!./logo.png')
+            .default,
+      },
+    }),
+    _c(\\"img\\", {
+      attrs: {
+        src: require('-!webpack-image-resize-loader?{\\"format\\":\\"png\\",\\"quality\\":100}!./logo.png'),
+        sizes: \\"(min-width: 36em) 33.3vw, 100vw\\",
+        loading: \\"lazy\\",
+      },
+    }),
+  ]);
+}
+"
+`);
 });
 
 it("should keep loading value if one exists", () => {
@@ -156,32 +162,34 @@ it("should keep loading value if one exists", () => {
   );
 
   expect(result.formattedLongestRender).toMatchInlineSnapshot(`
-    "with (this) {
-      return _c(\\"picture\\", {}, [
-        _c(\\"source\\", {
-          attrs: {
-            type: \\"image/webp\\",
-            srcset: require('-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"format\\":\\"webp\\",\\"quality\\":80}!./logo.png')
-              .default,
-          },
-        }),
-        _c(\\"source\\", {
-          attrs: {
-            type: \\"image/png\\",
-            srcset: require('-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"quality\\":100}!./logo.png')
-              .default,
-          },
-        }),
-        _c(\\"img\\", {
-          attrs: {
-            src: require('-!webpack-image-resize-loader?{\\"format\\":\\"png\\",\\"quality\\":100}!./logo.png'),
-            loading: \\"auto\\",
-          },
-        }),
-      ]);
-    }
-    "
-  `);
+"with (this) {
+  return _c(\\"picture\\", {}, [
+    _c(\\"source\\", {
+      attrs: {
+        type: \\"image/webp\\",
+        srcset:
+          require('-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"format\\":\\"webp\\",\\"quality\\":80}!./logo.png')
+            .default,
+      },
+    }),
+    _c(\\"source\\", {
+      attrs: {
+        type: \\"image/png\\",
+        srcset:
+          require('-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"quality\\":100}!./logo.png')
+            .default,
+      },
+    }),
+    _c(\\"img\\", {
+      attrs: {
+        src: require('-!webpack-image-resize-loader?{\\"format\\":\\"png\\",\\"quality\\":100}!./logo.png'),
+        loading: \\"auto\\",
+      },
+    }),
+  ]);
+}
+"
+`);
 });
 
 it(`should ignore if img element doesn't have "modernize"`, () => {
@@ -256,18 +264,19 @@ describe("options", () => {
     });
 
     expect(result.formattedLongestRender).toMatchInlineSnapshot(`
-      "with (this) {
-        return _c(\\"img\\", {
-          attrs: {
-            src: require('-!webpack-image-resize-loader?{\\"format\\":\\"png\\",\\"quality\\":100}!./logo.png'),
-            srcset: require('-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"format\\":\\"png\\",\\"quality\\":100}!./logo.png')
-              .default,
-            loading: \\"lazy\\",
-          },
-        });
-      }
-      "
-    `);
+"with (this) {
+  return _c(\\"img\\", {
+    attrs: {
+      src: require('-!webpack-image-resize-loader?{\\"format\\":\\"png\\",\\"quality\\":100}!./logo.png'),
+      srcset:
+        require('-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"format\\":\\"png\\",\\"quality\\":100}!./logo.png')
+          .default,
+      loading: \\"lazy\\",
+    },
+  });
+}
+"
+`);
   });
 
   it("should transform with noLazy: true", () => {
@@ -276,31 +285,33 @@ describe("options", () => {
     });
 
     expect(result.formattedLongestRender).toMatchInlineSnapshot(`
-      "with (this) {
-        return _c(\\"picture\\", {}, [
-          _c(\\"source\\", {
-            attrs: {
-              type: \\"image/webp\\",
-              srcset: require('-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"format\\":\\"webp\\",\\"quality\\":80}!./logo.png')
-                .default,
-            },
-          }),
-          _c(\\"source\\", {
-            attrs: {
-              type: \\"image/png\\",
-              srcset: require('-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"quality\\":100}!./logo.png')
-                .default,
-            },
-          }),
-          _c(\\"img\\", {
-            attrs: {
-              src: require('-!webpack-image-resize-loader?{\\"format\\":\\"png\\",\\"quality\\":100}!./logo.png'),
-            },
-          }),
-        ]);
-      }
-      "
-    `);
+"with (this) {
+  return _c(\\"picture\\", {}, [
+    _c(\\"source\\", {
+      attrs: {
+        type: \\"image/webp\\",
+        srcset:
+          require('-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"format\\":\\"webp\\",\\"quality\\":80}!./logo.png')
+            .default,
+      },
+    }),
+    _c(\\"source\\", {
+      attrs: {
+        type: \\"image/png\\",
+        srcset:
+          require('-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"quality\\":100}!./logo.png')
+            .default,
+      },
+    }),
+    _c(\\"img\\", {
+      attrs: {
+        src: require('-!webpack-image-resize-loader?{\\"format\\":\\"png\\",\\"quality\\":100}!./logo.png'),
+      },
+    }),
+  ]);
+}
+"
+`);
   });
 
   it("should transform with compressOnly: true, onlyUseImg: true", () => {
@@ -342,17 +353,18 @@ describe("options", () => {
     });
 
     expect(result.formattedLongestRender).toMatchInlineSnapshot(`
-      "with (this) {
-        return _c(\\"img\\", {
-          attrs: {
-            src: require('-!webpack-image-resize-loader?{\\"format\\":\\"png\\",\\"quality\\":100}!./logo.png'),
-            srcset: require('-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"format\\":\\"png\\",\\"quality\\":100}!./logo.png')
-              .default,
-          },
-        });
-      }
-      "
-    `);
+"with (this) {
+  return _c(\\"img\\", {
+    attrs: {
+      src: require('-!webpack-image-resize-loader?{\\"format\\":\\"png\\",\\"quality\\":100}!./logo.png'),
+      srcset:
+        require('-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"format\\":\\"png\\",\\"quality\\":100}!./logo.png')
+          .default,
+    },
+  });
+}
+"
+`);
   });
 
   it('should transform with attributeName:"test"', () => {
@@ -372,25 +384,26 @@ describe("options", () => {
     });
 
     expect(result.formattedLongestRender).toMatchInlineSnapshot(`
-      "with (this) {
-        return _c(\\"picture\\", {}, [
-          _c(\\"source\\", {
-            attrs: {
-              type: \\"image/png\\",
-              srcset: require('-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"quality\\":100}!./logo.png')
-                .default,
-            },
-          }),
-          _c(\\"img\\", {
-            attrs: {
-              src: require('-!webpack-image-resize-loader?{\\"format\\":\\"png\\",\\"quality\\":100}!./logo.png'),
-              loading: \\"lazy\\",
-            },
-          }),
-        ]);
-      }
-      "
-    `);
+"with (this) {
+  return _c(\\"picture\\", {}, [
+    _c(\\"source\\", {
+      attrs: {
+        type: \\"image/png\\",
+        srcset:
+          require('-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"quality\\":100}!./logo.png')
+            .default,
+      },
+    }),
+    _c(\\"img\\", {
+      attrs: {
+        src: require('-!webpack-image-resize-loader?{\\"format\\":\\"png\\",\\"quality\\":100}!./logo.png'),
+        loading: \\"lazy\\",
+      },
+    }),
+  ]);
+}
+"
+`);
   });
 
   it('should transform with sizes: ["original"]', () => {
@@ -399,32 +412,34 @@ describe("options", () => {
     });
 
     expect(result.formattedLongestRender).toMatchInlineSnapshot(`
-      "with (this) {
-        return _c(\\"picture\\", {}, [
-          _c(\\"source\\", {
-            attrs: {
-              type: \\"image/webp\\",
-              srcset: require('-!webpack-image-srcset-loader?{\\"sizes\\":[\\"original\\"]}!webpack-image-resize-loader?{\\"format\\":\\"webp\\",\\"quality\\":80}!./logo.png')
-                .default,
-            },
-          }),
-          _c(\\"source\\", {
-            attrs: {
-              type: \\"image/png\\",
-              srcset: require('-!webpack-image-srcset-loader?{\\"sizes\\":[\\"original\\"]}!webpack-image-resize-loader?{\\"quality\\":100}!./logo.png')
-                .default,
-            },
-          }),
-          _c(\\"img\\", {
-            attrs: {
-              src: require('-!webpack-image-resize-loader?{\\"format\\":\\"png\\",\\"quality\\":100}!./logo.png'),
-              loading: \\"lazy\\",
-            },
-          }),
-        ]);
-      }
-      "
-    `);
+"with (this) {
+  return _c(\\"picture\\", {}, [
+    _c(\\"source\\", {
+      attrs: {
+        type: \\"image/webp\\",
+        srcset:
+          require('-!webpack-image-srcset-loader?{\\"sizes\\":[\\"original\\"]}!webpack-image-resize-loader?{\\"format\\":\\"webp\\",\\"quality\\":80}!./logo.png')
+            .default,
+      },
+    }),
+    _c(\\"source\\", {
+      attrs: {
+        type: \\"image/png\\",
+        srcset:
+          require('-!webpack-image-srcset-loader?{\\"sizes\\":[\\"original\\"]}!webpack-image-resize-loader?{\\"quality\\":100}!./logo.png')
+            .default,
+      },
+    }),
+    _c(\\"img\\", {
+      attrs: {
+        src: require('-!webpack-image-resize-loader?{\\"format\\":\\"png\\",\\"quality\\":100}!./logo.png'),
+        loading: \\"lazy\\",
+      },
+    }),
+  ]);
+}
+"
+`);
   });
 
   it("should transform with quality: { jpeg: 50, webp: 50, png: 50, avif: 50 }", () => {
@@ -438,32 +453,34 @@ describe("options", () => {
     });
 
     expect(result.formattedLongestRender).toMatchInlineSnapshot(`
-      "with (this) {
-        return _c(\\"picture\\", {}, [
-          _c(\\"source\\", {
-            attrs: {
-              type: \\"image/webp\\",
-              srcset: require('-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"format\\":\\"webp\\",\\"quality\\":50}!./logo.png')
-                .default,
-            },
-          }),
-          _c(\\"source\\", {
-            attrs: {
-              type: \\"image/png\\",
-              srcset: require('-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"quality\\":50}!./logo.png')
-                .default,
-            },
-          }),
-          _c(\\"img\\", {
-            attrs: {
-              src: require('-!webpack-image-resize-loader?{\\"format\\":\\"png\\",\\"quality\\":50}!./logo.png'),
-              loading: \\"lazy\\",
-            },
-          }),
-        ]);
-      }
-      "
-    `);
+"with (this) {
+  return _c(\\"picture\\", {}, [
+    _c(\\"source\\", {
+      attrs: {
+        type: \\"image/webp\\",
+        srcset:
+          require('-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"format\\":\\"webp\\",\\"quality\\":50}!./logo.png')
+            .default,
+      },
+    }),
+    _c(\\"source\\", {
+      attrs: {
+        type: \\"image/png\\",
+        srcset:
+          require('-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"quality\\":50}!./logo.png')
+            .default,
+      },
+    }),
+    _c(\\"img\\", {
+      attrs: {
+        src: require('-!webpack-image-resize-loader?{\\"format\\":\\"png\\",\\"quality\\":50}!./logo.png'),
+        loading: \\"lazy\\",
+      },
+    }),
+  ]);
+}
+"
+`);
   });
 
   it('should transform with compressFilePathTransformer: () => "test"', () => {
@@ -472,27 +489,29 @@ describe("options", () => {
     });
 
     expect(result.formattedLongestRender).toMatchInlineSnapshot(`
-      "with (this) {
-        return _c(\\"picture\\", {}, [
-          _c(\\"source\\", {
-            attrs: {
-              type: \\"image/webp\\",
-              srcset: require('-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"format\\":\\"webp\\",\\"quality\\":80}!./logo.png')
-                .default,
-            },
-          }),
-          _c(\\"source\\", {
-            attrs: {
-              type: \\"image/png\\",
-              srcset: require('-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"quality\\":100}!./logo.png')
-                .default,
-            },
-          }),
-          _c(\\"img\\", { attrs: { src: require(\\"test\\"), loading: \\"lazy\\" } }),
-        ]);
-      }
-      "
-    `);
+"with (this) {
+  return _c(\\"picture\\", {}, [
+    _c(\\"source\\", {
+      attrs: {
+        type: \\"image/webp\\",
+        srcset:
+          require('-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"format\\":\\"webp\\",\\"quality\\":80}!./logo.png')
+            .default,
+      },
+    }),
+    _c(\\"source\\", {
+      attrs: {
+        type: \\"image/png\\",
+        srcset:
+          require('-!webpack-image-srcset-loader?{\\"sizes\\":[\\"480w\\",\\"1024w\\",\\"1920w\\",\\"2560w\\",\\"original\\"]}!webpack-image-resize-loader?{\\"quality\\":100}!./logo.png')
+            .default,
+      },
+    }),
+    _c(\\"img\\", { attrs: { src: require(\\"test\\"), loading: \\"lazy\\" } }),
+  ]);
+}
+"
+`);
   });
 
   it('should transform with srcSetFilePathTransformer: () => "test"', () => {
