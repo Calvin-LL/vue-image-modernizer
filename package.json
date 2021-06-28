@@ -24,7 +24,7 @@
     "jest": "^27.0.5",
     "lerna": "^4.0.0",
     "lint-staged": "^11.0.0",
-    "prettier": "^2.2.1",
+    "prettier": "^2.3.2",
     "remark-cli": "^9.0.0",
     "remark-lint": "^8.0.0",
     "remark-lint-no-dead-urls": "^1.1.0",
