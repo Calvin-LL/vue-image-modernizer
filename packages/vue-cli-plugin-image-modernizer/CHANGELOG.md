@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.1](https://github.com/Calvin-LL/vue-image-modernizer/compare/@vue-image-modernizer/vue-cli-plugin-image-modernizer@1.1.0...@vue-image-modernizer/vue-cli-plugin-image-modernizer@1.1.1) (2021-06-29)
+
+### Bug Fixes
+
+- **vue-cli-plugin-image-modernizer:** add fs.rmSync polyfill to support node@<14 ([#75](https://github.com/Calvin-LL/vue-image-modernizer/issues/75)) ([fd0f5c8](https://github.com/Calvin-LL/vue-image-modernizer/commit/fd0f5c8a183d05cfa6b9d78b6c245ca2e034a8d5))
+
 # [1.1.0](https://github.com/Calvin-LL/vue-image-modernizer/compare/@vue-image-modernizer/vue-cli-plugin-image-modernizer@1.0.2...@vue-image-modernizer/vue-cli-plugin-image-modernizer@1.1.0) (2021-06-22)
 
 ### Features
