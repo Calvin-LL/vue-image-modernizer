@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.2](https://github.com/Calvin-LL/vue-image-modernizer/compare/@vue-image-modernizer/vue-cli-plugin-image-modernizer@1.1.1...@vue-image-modernizer/vue-cli-plugin-image-modernizer@1.1.2) (2021-07-02)
+
+### Bug Fixes
+
+- **vue-cli-plugin-image-modernizer:** remove ts extension on rmSync-polyfill import ([#80](https://github.com/Calvin-LL/vue-image-modernizer/issues/80)) ([871d61c](https://github.com/Calvin-LL/vue-image-modernizer/commit/871d61cb11567429f30418cb564110fd1a8fab10))
+
 ## [1.1.1](https://github.com/Calvin-LL/vue-image-modernizer/compare/@vue-image-modernizer/vue-cli-plugin-image-modernizer@1.1.0...@vue-image-modernizer/vue-cli-plugin-image-modernizer@1.1.1) (2021-06-29)
 
 ### Bug Fixes
