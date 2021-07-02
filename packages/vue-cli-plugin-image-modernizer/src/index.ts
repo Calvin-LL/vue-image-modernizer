@@ -1,5 +1,5 @@
 import fs from "fs";
-import './rmSync-polyfill.ts'
+import './rmSync-polyfill'
 import mime from "mime";
 import path from "path";
 import { Compiler, Plugin, loader } from "webpack";
