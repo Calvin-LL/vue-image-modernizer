@@ -23,7 +23,7 @@
     "husky": "^4.3.8",
     "jest": "^27.0.5",
     "lerna": "^4.0.0",
-    "lint-staged": "^11.0.0",
+    "lint-staged": "^11.1.1",
     "prettier": "^2.2.1",
     "remark-cli": "^9.0.0",
     "remark-lint": "^8.0.0",
