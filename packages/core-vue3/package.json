@@ -28,7 +28,7 @@
   "homepage": "https://github.com/Calvin-LL/vue-image-modernizer",
   "dependencies": {
     "@vue-image-modernizer/core-shared": "^1.1.2",
-    "@vue/compiler-core": "^3.0.5",
+    "@vue/compiler-core": "^3.2.7",
     "mime": "^2.5.0"
   },
   "devDependencies": {
